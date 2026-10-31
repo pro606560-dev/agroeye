@@ -1,0 +1,269 @@
+{
+  "_readme": "ฐานข้อมูลพืชของ AgroEye ทุกค่ามี source ชี้ไปที่ data/SOURCES.md ค่า null = ยังไม่มีแหล่งอ้างอิง ห้ามเดาเติมเอง ให้แอปตัดปัจจัยนั้นออกจากการคำนวณ และแสดงว่า 'ยังไม่มีข้อมูล'",
+  "_units": {
+    "ph": "ค่า pH ของดิน [ต่ำสุด, สูงสุด]",
+    "tempC": "อุณหภูมิเฉลี่ยช่วงปลูก องศาเซลเซียส [ต่ำสุด, สูงสุด]",
+    "rainMmYear": "ปริมาณฝนต่อปี มิลลิเมตร [ต่ำสุด, สูงสุด] ค่า null ในตำแหน่งสูงสุด = ไม่จำกัด",
+    "texture": "heavy = ดินเหนียว, medium = ดินร่วน, light = ดินทราย/ร่วนปนทราย",
+    "drainage": "good = ต้องการดินระบายน้ำดี น้ำขังไม่ได้, poor-ok = ทนน้ำขังได้",
+    "light": "full-sun = แดดจัด, partial-ok = ทนร่มรำไรได้",
+    "optimal": "ช่วงเหมาะที่สุด ได้คะแนน 1",
+    "tolerable": "ช่วงที่พืชทนได้ ได้คะแนน 0.5 (นอกช่วงนี้ = 0)"
+  },
+  "crops": [
+    {
+      "id": "maize",
+      "nameTh": "ข้าวโพดเลี้ยงสัตว์",
+      "group": "พืชไร่",
+      "lifespan": "annual",
+      "ph": { "optimal": [5.0, 7.0], "tolerable": [4.5, 8.5], "source": "ECOCROP-MAIZE" },
+      "tempC": { "optimal": [18, 33], "tolerable": [10, 47], "source": "ECOCROP-MAIZE" },
+      "rainMmYear": { "optimal": [600, 1200], "tolerable": [400, 1800], "source": "ECOCROP-MAIZE" },
+      "texture": { "good": null, "ok": null, "source": null },
+      "drainage": { "value": null, "source": null },
+      "light": { "value": "full-sun", "source": "ECOCROP-MAIZE" },
+      "plantingMonths": { "months": null, "note": "ส่วนใหญ่ปลูกช่วงฤดูฝน", "source": "STOU-MAIZE-MAETHA" },
+      "cycleDays": { "value": null, "source": null },
+      "care": [],
+      "risks": [
+        { "risk": "หนอนกระทู้ข้าวโพดลายจุด", "fix": "หมั่นสำรวจไร่ ถ้าพบให้ปรึกษาเกษตรอำเภอ", "source": "DOAE-FAW-NEWS" }
+      ],
+      "localEvidence": { "text": "พืชที่ปลูกมากที่สุดใน ต.หัวเสือ (15,036 ไร่) เกษตรกรเฉลี่ยขาดทุนเล็กน้อยต่อไร่", "source": "LDD-HUASUEA-2567" },
+      "todo": ["texture", "drainage", "plantingMonths.months", "cycleDays", "care"]
+    },
+    {
+      "id": "rice-rd6",
+      "nameTh": "ข้าวเหนียว กข6",
+      "group": "ข้าว",
+      "lifespan": "annual",
+      "ph": { "optimal": [5.6, 7.3], "tolerable": [5.1, 7.8], "source": "LDD-RICE-REQ" },
+      "tempC": { "optimal": [22, 30], "tolerable": [20, 33], "source": "LDD-RICE-REQ" },
+      "rainMmYear": { "optimal": null, "tolerable": null, "source": null, "note": "ตารางของกรมพัฒนาที่ดินระบุ 700–800 มม. แต่ไม่ชัดว่าเป็นต่อปีหรือต่อฤดูปลูก จึงยังไม่ใช้" },
+      "texture": { "good": ["heavy"], "ok": [], "source": "LDD-RICE-REQ" },
+      "drainage": { "value": "poor-ok", "source": "LDD-RICE-REQ" },
+      "light": { "value": null, "source": null },
+      "plantingMonths": { "months": [4, 5], "note": "เกษตรกรแม่ทะเริ่มปลูกราวเมษายน–พฤษภาคม", "source": "GP-MAETHA-CHECKPOINTS" },
+      "cycleDays": { "value": [110, 120], "source": "LDD-RICE-REQ", "note": "ตัวเลขจากตารางข้าวนาปรังทั่วไป ข้าวนาปีบางพันธุ์อาจนานกว่า" },
+      "care": [
+        { "text": "รักษาระดับน้ำในนา 5–10 ซม. ตลอดฤดู และระบายน้ำออกก่อนเก็บเกี่ยวประมาณ 20 วัน", "source": "LDD-ACID-RICE" }
+      ],
+      "risks": [
+        { "risk": "ดินเปรี้ยวจัด (pH ต่ำกว่า 5)", "fix": "ใส่ปูน pH 4.5–5.0 ใช้ 0.5 ตัน/ไร่, pH 4.0–4.5 ใช้ 1 ตัน/ไร่, ต่ำกว่า 4.0 ใช้ 1.5 ตัน/ไร่", "source": "LDD-ACID-RICE" }
+      ],
+      "localEvidence": { "text": "ปลูกใน ต.บ้านกิ่ว อ.แม่ทะ", "source": "THEPRAK-2568" },
+      "todo": ["rainMmYear", "light"]
+    },
+    {
+      "id": "rice-kdml105",
+      "nameTh": "ข้าวหอมมะลิ 105",
+      "group": "ข้าว",
+      "lifespan": "annual",
+      "ph": { "optimal": [5.6, 7.3], "tolerable": [5.1, 7.8], "source": "LDD-RICE-REQ" },
+      "tempC": { "optimal": [22, 30], "tolerable": [20, 33], "source": "LDD-RICE-REQ" },
+      "rainMmYear": { "optimal": null, "tolerable": null, "source": null, "note": "ดูหมายเหตุของข้าวเหนียว กข6" },
+      "texture": { "good": ["heavy"], "ok": [], "source": "LDD-RICE-REQ" },
+      "drainage": { "value": "poor-ok", "source": "LDD-RICE-REQ" },
+      "light": { "value": null, "source": null },
+      "plantingMonths": { "months": [4, 5], "note": "เกษตรกรแม่ทะเริ่มปลูกราวเมษายน–พฤษภาคม", "source": "GP-MAETHA-CHECKPOINTS" },
+      "cycleDays": { "value": [110, 120], "source": "LDD-RICE-REQ", "note": "ตัวเลขจากตารางข้าวนาปรังทั่วไป" },
+      "care": [
+        { "text": "รักษาระดับน้ำในนา 5–10 ซม. ตลอดฤดู และระบายน้ำออกก่อนเก็บเกี่ยวประมาณ 20 วัน", "source": "LDD-ACID-RICE" }
+      ],
+      "risks": [
+        { "risk": "ดินเปรี้ยวจัด (pH ต่ำกว่า 5)", "fix": "ใส่ปูนตามระดับความเปรี้ยว 0.5–1.5 ตัน/ไร่", "source": "LDD-ACID-RICE" }
+      ],
+      "localEvidence": { "text": "ปลูกใน ต.บ้านกิ่ว อ.แม่ทะ", "source": "THEPRAK-2568" },
+      "todo": ["rainMmYear", "light"]
+    },
+    {
+      "id": "cassava",
+      "nameTh": "มันสำปะหลัง",
+      "group": "พืชไร่",
+      "lifespan": "annual",
+      "ph": { "optimal": [5.0, 6.5], "tolerable": [4.0, 9.0], "source": "DOA-CASSAVA-2563 (optimal), ECOCROP-CASSAVA (tolerable)" },
+      "tempC": { "optimal": [20, 29], "tolerable": [10, 35], "source": "ECOCROP-CASSAVA" },
+      "rainMmYear": { "optimal": [1000, 1500], "tolerable": [500, 5000], "source": "ECOCROP-CASSAVA" },
+      "texture": { "good": ["medium", "light"], "ok": ["heavy"], "source": "ECOCROP-CASSAVA" },
+      "drainage": { "value": "good", "source": "DOA-CASSAVA-2563" },
+      "light": { "value": "full-sun", "source": "ECOCROP-CASSAVA" },
+      "plantingMonths": { "months": [5, 6, 10, 11, 12], "note": "ต้นฝน พ.ค.–มิ.ย. (ปักลึก 10 ซม.) หรือปลายฝน ต.ค.–ธ.ค. (ปักลึก 15 ซม.)", "source": "DOA-CASSAVA-2563" },
+      "cycleDays": { "value": [240, 365], "source": "DOA-CASSAVA-2563", "note": "เก็บได้ตั้งแต่ 8 เดือน เหมาะสุด 12 เดือน" },
+      "care": [
+        { "text": "ปลูกบนที่ดอนที่น้ำไม่ขัง ความลาดชันน้อยกว่า 5% หน้าดินลึกกว่า 30 ซม.", "source": "DOA-CASSAVA-2563" },
+        { "text": "ไม่ควรเก็บเกี่ยวช่วงฝนตกหนัก เพราะแป้งในหัวจะลดลง", "source": "DOA-CASSAVA-2563" }
+      ],
+      "risks": [
+        { "risk": "เพลี้ยแป้ง", "fix": null, "source": "DOA-CASSAVA-2563" },
+        { "risk": "ไรแดง", "fix": null, "source": "DOA-CASSAVA-2563" }
+      ],
+      "localEvidence": { "text": "910 ไร่ใน ต.หัวเสือ และเป็นพืชรายได้หลักของบ้านกิ่ว/บ้านบอม", "source": "LDD-HUASUEA-2567, GP-MAETHA-STORY" },
+      "todo": ["risks[].fix"]
+    },
+    {
+      "id": "sugarcane",
+      "nameTh": "อ้อย",
+      "group": "พืชไร่",
+      "lifespan": "annual",
+      "ph": { "optimal": [5.0, 8.0], "tolerable": [4.5, 9.0], "source": "ECOCROP-SUGARCANE" },
+      "tempC": { "optimal": [24, 37], "tolerable": [15, 41], "source": "ECOCROP-SUGARCANE" },
+      "rainMmYear": { "optimal": [1500, 2000], "tolerable": [1000, 5000], "source": "ECOCROP-SUGARCANE" },
+      "texture": { "good": null, "ok": null, "source": null },
+      "drainage": { "value": null, "source": null },
+      "light": { "value": "full-sun", "source": "ECOCROP-SUGARCANE" },
+      "plantingMonths": { "months": null, "note": null, "source": null },
+      "cycleDays": { "value": [210, 365], "source": "ECOCROP-SUGARCANE" },
+      "care": [
+        { "text": "ชอบดินลึกมากกว่า 150 ซม. และดินอุดมสมบูรณ์ ดินตื้นจะให้ผลไม่ดี", "source": "ECOCROP-SUGARCANE" }
+      ],
+      "risks": [],
+      "localEvidence": { "text": "772 ไร่ใน ต.หัวเสือ", "source": "LDD-HUASUEA-2567" },
+      "todo": ["texture", "drainage", "plantingMonths", "risks"]
+    },
+    {
+      "id": "longan",
+      "nameTh": "ลำไย",
+      "group": "ไม้ผล",
+      "lifespan": "perennial",
+      "ph": { "optimal": null, "tolerable": null, "source": null },
+      "tempC": { "optimal": null, "tolerable": null, "source": null, "note": "ต้องมีช่วงอากาศเย็นประมาณ 15°C หรือต่ำกว่า และแห้งช่วงปลายปีจึงจะออกดอกดี (ข้อมูลจากฟลอริดา)" },
+      "rainMmYear": { "optimal": null, "tolerable": null, "source": null },
+      "texture": { "good": ["medium", "light"], "ok": [], "source": "UF-IFAS-LONGAN" },
+      "drainage": { "value": "good", "source": "UF-IFAS-LONGAN" },
+      "light": { "value": null, "source": null },
+      "plantingMonths": { "months": null, "note": null, "source": null },
+      "cycleDays": { "value": null, "source": null, "note": "กิ่งตอนเริ่มให้ผล 2–3 ปีหลังปลูก ต้นเพาะเมล็ดอาจถึง 6 ปี" },
+      "care": [
+        { "text": "ห้ามให้น้ำขัง ต้นเล็กอาจตายได้ถ้าน้ำท่วมหรือดินแฉะ 5–10 วัน", "source": "UF-IFAS-LONGAN" },
+        { "text": "ลดการให้น้ำช่วงปลายฝนถึงหน้าหนาวเพื่อให้ออกดอก แล้วให้น้ำสม่ำเสมอตั้งแต่ออกดอกจนเก็บผล", "source": "UF-IFAS-LONGAN" }
+      ],
+      "risks": [
+        { "risk": "ฤดูหนาวที่อุ่นและมีฝน ทำให้แตกใบแทนออกดอก", "fix": null, "source": "UF-IFAS-LONGAN" },
+        { "risk": "ฝนตกหนักช่วงออกดอก ทำให้ดอกร่วง", "fix": null, "source": "UF-IFAS-LONGAN" }
+      ],
+      "localEvidence": { "text": "1,137 ไร่ใน ต.หัวเสือ", "source": "LDD-HUASUEA-2567" },
+      "todo": ["ph", "tempC", "rainMmYear", "plantingMonths", "แหล่งข้อมูลไทย (กรมวิชาการเกษตร) แทนข้อมูลฟลอริดา"]
+    },
+    {
+      "id": "rubber",
+      "nameTh": "ยางพารา",
+      "group": "ไม้ยืนต้น",
+      "lifespan": "perennial",
+      "ph": { "optimal": null, "tolerable": [4.0, 8.0], "source": "ICRAF-HEVEA", "note": "ขึ้นได้ดีกว่าในดินกรด ห้ามใส่ปูน" },
+      "tempC": { "optimal": [23, 35], "tolerable": null, "source": "ICRAF-HEVEA", "note": "เป็นอุณหภูมิเฉลี่ยทั้งปี" },
+      "rainMmYear": { "optimal": [1500, 3000], "tolerable": [1500, 4000], "source": "ICRAF-HEVEA" },
+      "texture": { "good": ["medium"], "ok": [], "source": "ICRAF-HEVEA" },
+      "drainage": { "value": "good", "source": "ICRAF-HEVEA" },
+      "light": { "value": null, "source": null },
+      "plantingMonths": { "months": null, "note": null, "source": null },
+      "cycleDays": { "value": null, "source": null, "note": "อายุเศรษฐกิจ 30–35 ปี" },
+      "care": [
+        { "text": "ชอบดินร่วนลึกที่ระบายน้ำดี หลีกเลี่ยงดินตื้นหรือดินที่น้ำขัง", "source": "ICRAF-HEVEA" }
+      ],
+      "risks": [
+        { "risk": "ปลูกที่สูงเกิน 400–500 เมตร ต้นจะเล็กและได้น้ำยางน้อย", "fix": "ตรวจความสูงของพื้นที่ก่อนปลูก", "source": "ICRAF-HEVEA" }
+      ],
+      "localEvidence": { "text": "444 ไร่ใน ต.หัวเสือ", "source": "LDD-HUASUEA-2567" },
+      "todo": ["ph.optimal", "plantingMonths", "risks (โรค/แมลง)"]
+    },
+    {
+      "id": "mango",
+      "nameTh": "มะม่วง",
+      "group": "ไม้ผล",
+      "lifespan": "perennial",
+      "ph": { "optimal": [5.5, 7.5], "tolerable": [4.3, 8.5], "source": "ECOCROP-MANGO" },
+      "tempC": { "optimal": [24, 30], "tolerable": [8, 48], "source": "ECOCROP-MANGO" },
+      "rainMmYear": { "optimal": [600, 1500], "tolerable": [300, 2600], "source": "ECOCROP-MANGO" },
+      "texture": { "good": ["medium", "light"], "ok": ["heavy"], "source": "ECOCROP-MANGO" },
+      "drainage": { "value": "good", "source": "ECOCROP-MANGO" },
+      "light": { "value": "full-sun", "source": "ECOCROP-MANGO" },
+      "plantingMonths": { "months": null, "note": null, "source": null },
+      "cycleDays": { "value": null, "source": null },
+      "care": [],
+      "risks": [],
+      "localEvidence": { "text": "157 ไร่ใน ต.หัวเสือ", "source": "LDD-HUASUEA-2567" },
+      "todo": ["plantingMonths", "care", "risks"]
+    },
+    {
+      "id": "peanut",
+      "nameTh": "ถั่วลิสง",
+      "group": "พืชไร่",
+      "lifespan": "annual",
+      "ph": { "optimal": [5.5, 6.5], "tolerable": [4.5, 8.5], "source": "ECOCROP-PEANUT" },
+      "tempC": { "optimal": [22, 32], "tolerable": [10, 45], "source": "ECOCROP-PEANUT" },
+      "rainMmYear": { "optimal": [600, 1500], "tolerable": [400, 4000], "source": "ECOCROP-PEANUT" },
+      "texture": { "good": ["medium"], "ok": ["heavy", "light"], "source": "ECOCROP-PEANUT" },
+      "drainage": { "value": "good", "source": "ECOCROP-PEANUT" },
+      "light": { "value": "full-sun", "source": "ECOCROP-PEANUT" },
+      "plantingMonths": { "months": null, "note": null, "source": null },
+      "cycleDays": { "value": [90, 150], "source": "ECOCROP-PEANUT" },
+      "care": [
+        { "text": "ใช้เป็นพืชหมุนเวียนหลังนาข้าว ช่วยคลุมดิน เก็บความชื้น และเพิ่มอินทรียวัตถุ", "source": "LDD-ACID-RICE" }
+      ],
+      "risks": [],
+      "localEvidence": { "text": "54 ไร่ใน ต.หัวเสือ", "source": "LDD-HUASUEA-2567" },
+      "todo": ["plantingMonths", "risks"]
+    },
+    {
+      "id": "tamarind",
+      "nameTh": "มะขาม",
+      "group": "ไม้ผล",
+      "lifespan": "perennial",
+      "ph": { "optimal": null, "tolerable": null, "source": null },
+      "tempC": { "optimal": [20, 33], "tolerable": null, "source": "ICRAF-TAMARIND", "note": "เป็นอุณหภูมิเฉลี่ยทั้งปี ต้นเล็กไม่ทนน้ำค้างแข็ง" },
+      "rainMmYear": { "optimal": null, "tolerable": [350, 2700], "source": "ICRAF-TAMARIND" },
+      "texture": { "good": null, "ok": null, "source": null, "note": "ขึ้นได้ในดินเกือบทุกชนิด ชอบดินตะกอนลึก" },
+      "drainage": { "value": "good", "source": "ICRAF-TAMARIND" },
+      "light": { "value": null, "source": null },
+      "plantingMonths": { "months": null, "note": null, "source": null },
+      "cycleDays": { "value": null, "source": null, "note": "ต้นทาบ/เสียบยอดให้ผลใน 3–4 ปี ต้นเพาะเมล็ด 7–10 ปี" },
+      "care": [
+        { "text": "ต้องมีฤดูแล้งที่ชัดเจนและยาวจึงจะติดผลดี", "source": "ICRAF-TAMARIND" }
+      ],
+      "risks": [],
+      "localEvidence": { "text": "44 ไร่ใน ต.หัวเสือ", "source": "LDD-HUASUEA-2567" },
+      "todo": ["ph", "texture", "plantingMonths", "risks"]
+    },
+    {
+      "id": "ginger",
+      "nameTh": "ขิง",
+      "group": "พืชผัก/สมุนไพร",
+      "lifespan": "annual",
+      "ph": { "optimal": [6.0, 7.0], "tolerable": null, "source": "LDD-GINGER" },
+      "tempC": { "optimal": [20, 30], "tolerable": null, "source": "LDD-GINGER" },
+      "rainMmYear": { "optimal": [1500, null], "tolerable": null, "source": "LDD-GINGER" },
+      "texture": { "good": ["medium", "light"], "ok": [], "source": "LDD-GINGER" },
+      "drainage": { "value": "good", "source": "LDD-GINGER" },
+      "light": { "value": null, "source": null },
+      "plantingMonths": { "months": [3, 4, 5], "note": "ต้นฝนหรือก่อนฤดูฝนเล็กน้อย", "source": "LDD-GINGER" },
+      "cycleDays": { "value": [150, 365], "source": "LDD-GINGER", "note": "ขิงอ่อน 5–6 เดือน ขิงแก่ 11–12 เดือน" },
+      "care": [
+        { "text": "พรวนดินและใส่ปุ๋ยหมัก ปุ๋ยคอก หรือกากถั่วก่อนปลูก", "source": "LDD-GINGER" },
+        { "text": "เปลี่ยนที่ปลูกทุกปี และพักดินด้วยพืชตระกูลถั่ว เพราะผลผลิตลดลงจากโรคถ้าปลูกซ้ำที่เดิม", "source": "LDD-GINGER" }
+      ],
+      "risks": [
+        { "risk": "โรคเน่าและโรคใบจุดจากเชื้อรา", "fix": "อย่าให้น้ำขัง อย่าปลูกชิดเกินไป และเปลี่ยนที่ปลูกทุกปี", "source": "LDD-GINGER" },
+        { "risk": "หนอนกระทู้ เพลี้ยไฟ เพลี้ยหอย ไส้เดือนฝอย", "fix": null, "source": "LDD-GINGER" }
+      ],
+      "localEvidence": { "text": "12 ไร่ใน ต.หัวเสือ", "source": "LDD-HUASUEA-2567" },
+      "todo": ["ph.tolerable", "tempC.tolerable", "light"]
+    },
+    {
+      "id": "watermelon",
+      "nameTh": "แตงโม",
+      "group": "พืชผัก",
+      "lifespan": "annual",
+      "ph": { "optimal": [6.0, 7.0], "tolerable": [5.5, 7.5], "source": "ECOCROP-WATERMELON" },
+      "tempC": { "optimal": [20, 35], "tolerable": [15, 40], "source": "ECOCROP-WATERMELON" },
+      "rainMmYear": { "optimal": [500, 700], "tolerable": [400, 1800], "source": "ECOCROP-WATERMELON" },
+      "texture": { "good": ["medium"], "ok": ["light"], "source": "ECOCROP-WATERMELON" },
+      "drainage": { "value": "good", "source": "ECOCROP-WATERMELON" },
+      "light": { "value": "full-sun", "source": "ECOCROP-WATERMELON" },
+      "plantingMonths": { "months": null, "note": "ชาวแม่ทะปลูกช่วงหน้าแล้ง", "source": "GP-MAETHA-STORY" },
+      "cycleDays": { "value": null, "source": null },
+      "care": [],
+      "risks": [],
+      "localEvidence": { "text": "ยังปลูกในหน้าแล้ง", "source": "GP-MAETHA-STORY" },
+      "todo": ["plantingMonths.months", "cycleDays", "care", "risks"]
+    }
+  ]
+}

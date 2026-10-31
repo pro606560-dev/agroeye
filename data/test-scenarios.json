@@ -1,0 +1,55 @@
+{
+  "_readme": "กรณีทดสอบสำหรับหน้าพิสูจน์สมมติฐาน มาจากชุดดินจริงของ ต.หัวเสือ อ.แม่ทะ (LDD-HUASUEA-2567) ค่า ph ที่ใช้คำนวณคือค่ากลางของช่วงในเอกสาร บอกในรายงานว่าเป็น 'กรณีจำลองจากข้อมูลชุดดิน' ไม่ใช่ค่าที่วัดเอง",
+  "scenarios": [
+    {
+      "id": "hs",
+      "name": "ชุดดินหินซ้อน (Hs) ที่ราบลาดเล็กน้อย",
+      "texture": "medium",
+      "textureNote": "ดินร่วนเหนียว มีหินปน",
+      "phRange": [6.5, 8.0],
+      "ph": 7.25,
+      "drainage": "good",
+      "source": "LDD-HUASUEA-2567"
+    },
+    {
+      "id": "ty",
+      "name": "ชุดดินท่ายาง (Ty) ที่ลาดชัน",
+      "texture": "light",
+      "textureNote": "ดินร่วนปนทรายมีกรวด",
+      "phRange": [5.5, 6.5],
+      "ph": 6.0,
+      "drainage": "good",
+      "source": "LDD-HUASUEA-2567"
+    },
+    {
+      "id": "cm",
+      "name": "ชุดดินเชียงใหม่ (Cm) ที่ราบ",
+      "texture": "light",
+      "textureNote": "ดินทรายปนร่วน ลึกมาก",
+      "phRange": [5.0, 7.0],
+      "ph": 6.0,
+      "drainage": "good",
+      "source": "LDD-HUASUEA-2567"
+    },
+    {
+      "id": "ac",
+      "name": "ดินตะกอนลำน้ำ (AC) ที่ลุ่ม",
+      "texture": "medium",
+      "textureNote": "ดินร่วนเหนียว ระบายน้ำค่อนข้างเลว",
+      "phRange": [5.0, 6.5],
+      "ph": 5.75,
+      "drainage": "poor",
+      "source": "LDD-HUASUEA-2567"
+    },
+    {
+      "id": "acid-clay",
+      "name": "กรณีสมมติ: ดินเหนียวเปรี้ยว ที่ลุ่ม",
+      "texture": "heavy",
+      "textureNote": "สมมติขึ้นเพื่อทดสอบขอบเขตของระบบ",
+      "phRange": null,
+      "ph": 4.8,
+      "drainage": "poor",
+      "source": "สมมติ"
+    }
+  ]
+}

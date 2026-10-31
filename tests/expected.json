@@ -1,0 +1,83 @@
+{
+  "_readme": "คำตอบที่คำนวณแยกจากโค้ดของแอป (ดูวิธีคิดทุกข้อใน docs/HAND-CALC.md) Claude Code ห้ามแก้ไฟล์นี้ ถ้าโค้ดได้ผลไม่ตรง ให้แก้โค้ด ถ้าเชื่อว่าคำตอบผิด ให้อธิบายผู้ใช้แล้วให้ผู้ใช้ตัดสิน",
+  "settings": {
+    "month": 5,
+    "climate": null,
+    "note": "คิดเฉพาะ 4 ปัจจัย: pH (3), ประเภทดิน (3), น้ำขัง (2), เดือนปลูก (2) ไม่ใช้อุณหภูมิและฝน ต้องได้ผลเท่าเดิมแม้หลัง task 10"
+  },
+  "scoreCases": [
+    {
+      "id": "e1",
+      "scenario": "ty",
+      "cropId": "cassava",
+      "expectedScore": 100,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    },
+    {
+      "id": "e2",
+      "scenario": "hs",
+      "cropId": "cassava",
+      "expectedScore": 85,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    },
+    {
+      "id": "e3",
+      "scenario": "ac",
+      "cropId": "cassava",
+      "expectedScore": 80,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    },
+    {
+      "id": "e4",
+      "scenario": "acid-clay",
+      "cropId": "rice-rd6",
+      "expectedScore": 70,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    },
+    {
+      "id": "e5",
+      "scenario": "acid-clay",
+      "cropId": "cassava",
+      "expectedScore": 50,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    },
+    {
+      "id": "e6",
+      "scenario": "cm",
+      "cropId": "ginger",
+      "expectedScore": 100,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    },
+    {
+      "id": "e7",
+      "scenario": "hs",
+      "cropId": "mango",
+      "expectedScore": 100,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    },
+    {
+      "id": "e8",
+      "scenario": "ac",
+      "cropId": "peanut",
+      "expectedScore": 75,
+      "byWhom": "Claude แชตวางแผน (คำนวณแยกจาก Claude Code) — ผู้ใช้ตรวจ e1, e4 ด้วยมือ"
+    }
+  ],
+  "ruleCases": [
+    {
+      "id": "r1",
+      "rule": "ถ้าปัจจัยไหนไม่มีข้อมูล ต้องถูกตัดออก ไม่นับเป็น 0",
+      "check": "พืช longan ใน scenario hs ต้องมี coverage น้อยกว่าพืช cassava"
+    },
+    {
+      "id": "r2",
+      "rule": "พืชที่มีปัจจัยใช้ได้น้อยกว่า 2 ตัว ต้องไม่อยู่ใน 3 อันดับแรก",
+      "check": "ไม่มีพืชใน top ที่ used factor < 2"
+    },
+    {
+      "id": "r3",
+      "rule": "Gemini ใช้ไม่ได้ อันดับพืชต้องไม่เปลี่ยน",
+      "check": "rankCrops ไม่เรียก ai.js เลย"
+    }
+  ]
+}

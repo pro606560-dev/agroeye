@@ -1,0 +1,16 @@
+# ไฟล์ระบบ
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# โฟลเดอร์ของ Node
+node_modules/
+
+# ไฟล์ลับ ห้ามขึ้น git
+*secret*
+.env
+.env.*
+*.env
+
+# ค่าส่วนตัวของ Claude Code ในเครื่องนี้
+.claude/settings.local.json

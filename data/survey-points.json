@@ -1,0 +1,19 @@
+{
+  "_readme": "จุดสำรวจจริงของทีม ค่า null = ยังไม่ได้วัด ห้ามเดาเติม ใช้ชื่อแปลงแทนชื่อเจ้าของ และพิกัดหยาบระดับตำบลเท่านั้น",
+  "points": [
+    {
+      "id": "point-A",
+      "name": "แปลง A",
+      "tambon": null,
+      "surveyDate": null,
+      "texture": "heavy",
+      "textureNote": "ดินเหนียว (ทีมลงพื้นที่เก็บตัวอย่างแล้ว)",
+      "ph": 4,
+      "phNote": "วัดด้วยชุดทดสอบภาคสนาม ได้ pH 4 (ดินเปรี้ยวจัด)",
+      "drainage": null,
+      "currentCrop": null,
+      "goodCropsByOwner": [],
+      "source": "SURVEY-TEAM"
+    }
+  ]
+}

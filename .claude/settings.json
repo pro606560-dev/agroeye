@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(tests/expected.json)",
+      "Write(tests/expected.json)",
+      "Edit(./tests/expected.json)",
+      "Write(./tests/expected.json)",
+      "Edit(.claude/**)",
+      "Write(.claude/**)"
+    ]
+  }
+}
