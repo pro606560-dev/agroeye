@@ -78,6 +78,9 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
   box-shadow: 0 0 0 3px var(--color-accent);
 }
 
+/* หัวข้อรับโฟกัสจากแอปตอนเปลี่ยนหน้าเท่านั้น ผู้ใช้กดไม่ได้ จึงไม่ต้องมีกรอบ */
+[tabindex="-1"]:focus { outline: none; box-shadow: none; }
+
 /* โครงหน้า: คอลัมน์เดียว ชิดซ้าย */
 .page {
   width: 100%;
