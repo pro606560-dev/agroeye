@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="น้ำขังอยู่บนผิวดิน">
+  <rect width="96" height="96" fill="#E3E8F3"/>
+  <rect y="28" width="96" height="30" fill="#4C7BB8"/>
+  <rect y="58" width="96" height="38" fill="#5C4326"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round">
+    <path d="M12 38 q8 -6 16 0 t16 0"/>
+    <path d="M52 47 q8 -6 16 0 t16 0"/>
+  </g>
+</svg>

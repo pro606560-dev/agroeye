@@ -23,3 +23,13 @@ const MIN_USED_FACTORS = 2;
 
 // จำนวนพืชที่แนะนำ
 const TOP_CROP_COUNT = 3;
+
+// ช่วง pH ที่กรอกได้ และช่วงของแถบเลื่อน
+const PH_INPUT_MIN = 0;
+const PH_INPUT_MAX = 14;
+const PH_SLIDER_MIN = 3;
+const PH_SLIDER_MAX = 10;
+
+// ใช้แสดงคำข้างตัวเลข pH เท่านั้น ไม่มีผลกับคะแนน
+const PH_NORMAL_MIN = 6.6; // ต่ำกว่านี้ = ดินเปรี้ยว
+const PH_NORMAL_MAX = 7.3; // สูงกว่านี้ = ดินเป็นด่าง

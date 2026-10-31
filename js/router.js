@@ -1,9 +1,10 @@
 // จับคู่ hash ใน URL กับหน้าจอ แยกจาก app.js เพื่อให้ tests.html ทดสอบได้โดยไม่ต้องเริ่มแอป
 
 // title คือชื่อบนแถบหัว, hasParam = true คือหน้าที่มีค่าต่อท้าย เช่น #/crop/cassava
+// optionalParam = true คือมีค่าต่อท้ายหรือไม่มีก็ได้ เช่น #/input และ #/input/ph
 const ROUTES = {
   home: { title: "AgroEye" },
-  input: { title: "ตรวจแปลงใหม่" },
+  input: { title: "ตรวจแปลงใหม่", optionalParam: true },
   result: { title: "ผลการตรวจ" },
   crop: { title: "รายละเอียดพืช", hasParam: true },
   plots: { title: "แปลงของฉัน" },
@@ -18,6 +19,7 @@ function matchRoute(hash) {
   const route = ROUTES[name];
   if (first !== "#" || !Object.hasOwn(ROUTES, name) || extra.length > 0) return null;
   if (route.hasParam) return param ? { name, param: decodeParam(param) } : null;
+  if (route.optionalParam && param) return { name, param: decodeParam(param) };
   return param === undefined ? { name, param: null } : null;
 }
 
