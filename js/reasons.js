@@ -88,6 +88,7 @@ function matchingRisks(plot, crop) {
 function missingDataText(result) {
   const labels = result.factors
     .filter((factor) => !factor.used)
-    .map((factor) => FACTORS.find((f) => f.key === factor.key).label);
+    .map((factor) => FACTORS.find((f) => f.key === factor.key))
+    .map((info) => info.plainLabel ?? info.label);
   return labels.length > 0 ? `ยังไม่มีข้อมูล: ${labels.join(", ")}` : null;
 }

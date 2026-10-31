@@ -8,9 +8,9 @@ const SOURCES_URL = "data/SOURCES.md";
 
 // 7 ปัจจัยที่ใช้คิดคะแนนได้ (ดู docs/SPEC.md หัวข้อ 4.1)
 const FACTORS = [
-  { key: "ph", label: "pH" },
+  { key: "ph", label: "pH", plainLabel: "ความเปรี้ยวของดิน (pH)" },
   { key: "texture", label: "ประเภทดิน" },
-  { key: "drainage", label: "การระบายน้ำ" },
+  { key: "drainage", label: "การระบายน้ำ", plainLabel: "น้ำขัง" },
   { key: "plantingMonths", label: "เดือนปลูก" },
   { key: "tempC", label: "อุณหภูมิ" },
   { key: "rainMmYear", label: "ฝน" },

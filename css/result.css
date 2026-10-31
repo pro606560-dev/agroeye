@@ -1,0 +1,111 @@
+/* หน้าผลลัพธ์ แยกจาก style.css เพราะไฟล์นั้นใกล้ 300 บรรทัดแล้ว */
+
+.plot-summary { color: var(--color-ink-soft); }
+
+.crop-list, .reason-list, .other-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crop-card { margin-bottom: var(--space-3); border-top: 8px solid var(--color-primary); }
+.crop-rank { margin-bottom: 0; color: var(--color-ink-soft); font-weight: 700; }
+.crop-name { margin-bottom: var(--space-1); font-size: var(--text-h2); }
+.crop-score { margin-bottom: var(--space-2); }
+.crop-score strong { font-size: var(--text-h2); }
+.crop-score .stars { display: block; font-size: var(--text-h2); line-height: 1.3; }
+
+/* ดาวที่ไม่ได้ เป็นดาวกลวง จะได้ไม่ดูเหมือนดาวเต็ม */
+.crop-score .stars { color: transparent; -webkit-text-stroke: 1px var(--color-ink); }
+
+/* ครึ่งดาว: ซ้อนดาวสีขมิ้นครึ่งซ้ายทับดาวเปล่า */
+.star-half { position: relative; display: inline-block; }
+.star-half::before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  width: 50%;
+  overflow: hidden;
+  color: var(--color-accent);
+  -webkit-text-stroke: 1px var(--color-ink);
+}
+
+.reason-list { margin-bottom: var(--space-3); }
+.reason-list li {
+  position: relative;
+  margin-bottom: var(--space-1);
+  padding-left: 32px;
+}
+
+/* เครื่องหมายต่างรูปกัน ไม่ได้บอกด้วยสีอย่างเดียว */
+.reason-mark {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.reason-good .reason-mark { background: var(--color-ok); }
+.reason-warn .reason-mark { background: var(--color-warn); }
+
+.confidence { margin-bottom: var(--space-1); }
+.confidence-high strong { color: var(--color-ok); }
+.confidence-low strong { color: var(--color-warn); }
+
+.hint-list { margin: var(--space-1) 0 0; padding-left: 24px; }
+
+/* ส่วนพับได้: แถบกดสูงเท่าปุ่ม */
+.fold {
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.fold summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--button-height);
+  padding: 8px var(--space-3);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fold summary::before { content: "▸"; }
+.fold[open] summary::before { content: "▾"; }
+
+.other-row {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--color-line);
+}
+
+.other-row a { font-weight: 700; }
+
+.result-actions { margin-top: var(--space-4); }
+#save-notice:not(:empty) { margin-top: var(--space-2); }
+#save-notice + .btn { margin-top: var(--space-2); }
+#save-notice .alert { margin-bottom: 0; }
+
+.disclaimer { margin-top: var(--space-4); color: var(--color-ink-soft); }
+
+/* ซ่อนจากตา แต่โปรแกรมอ่านหน้าจออ่านได้ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

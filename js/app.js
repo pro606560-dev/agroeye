@@ -6,6 +6,7 @@ const HOME_HASH = "#/home";
 const VIEWS = {
   home: renderHome,
   input: renderInput,
+  result: renderResult,
 };
 
 // นับจำนวนหน้าที่เปิดในแอปรอบนี้ เพื่อรู้ว่ากดย้อนกลับแล้วยังอยู่ในแอปไหม
