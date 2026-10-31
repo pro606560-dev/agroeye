@@ -14,6 +14,8 @@
     #results li.pass { border-color: #1b6e2c; background: #e8f5e9; }
     #results li.fail { border-color: #b3261e; background: #fdecea; }
     #results pre { margin: 6px 0 0; font-size: 16px; white-space: pre-wrap; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #999; padding: 6px 8px; text-align: left; }
   </style>
 </head>
 <body>
@@ -21,9 +23,22 @@
   <p id="summary">กำลังรัน...</p>
   <ul id="results"></ul>
 
+  <h2>ความครอบคลุมของข้อมูลพืช</h2>
+  <table>
+    <thead><tr><th>พืช</th><th>ปัจจัยที่ใช้ได้</th><th>ยังไม่มีข้อมูล</th></tr></thead>
+    <tbody id="coverage-body"></tbody>
+  </table>
+
+  <script src="js/config.js"></script>
+  <script src="js/validate.js"></script>
+  <script src="js/data.js"></script>
   <script src="tests/runner.js"></script>
+  <script src="tests/coverage-table.js"></script>
   <!-- เพิ่มไฟล์เทสต์ใหม่ที่นี่ -->
   <script src="tests/sample.test.js"></script>
-  <script>runTests();</script>
+  <script src="tests/data.test.js"></script>
+  <script>
+    runTests().then(showCoverageTable);
+  </script>
 </body>
 </html>

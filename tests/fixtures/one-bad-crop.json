@@ -1,0 +1,26 @@
+{
+  "crops": [
+    {
+      "id": "fake-good",
+      "nameTh": "พืชสมมติที่ถูกรูปแบบ",
+      "group": "ทดสอบ",
+      "ph": { "optimal": [5, 7], "tolerable": [4, 8], "source": "SURVEY-TEAM" },
+      "tempC": { "optimal": null, "tolerable": null, "source": null },
+      "rainMmYear": { "optimal": null, "tolerable": null, "source": null },
+      "texture": { "good": ["medium"], "ok": [], "source": "SURVEY-TEAM" },
+      "drainage": { "value": null, "source": null },
+      "light": { "value": null, "source": null },
+      "plantingMonths": { "months": null, "note": null, "source": null },
+      "cycleDays": { "value": null, "source": null },
+      "care": [],
+      "risks": [],
+      "localEvidence": { "text": null, "source": null }
+    },
+    {
+      "id": "fake-bad",
+      "nameTh": "พืชสมมติที่ผิดรูปแบบ",
+      "group": "ทดสอบ",
+      "ph": { "optimal": [8, 5], "tolerable": null, "source": "SURVEY-TEAM" }
+    }
+  ]
+}
