@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgroEye ตัวอย่างดีไซน์</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <a class="topbar-back" href="#">‹ ย้อนกลับ</a>
+      <h1 class="topbar-title">ตัวอย่างดีไซน์</h1>
+    </div>
+    <div class="soil-band"></div>
+  </header>
+
+  <main class="page">
+    <h2>ขนาดตัวอักษร</h2>
+    <div class="card">
+      <button class="btn btn-secondary" data-size="">ปกติ</button>
+      <button class="btn btn-secondary" data-size="text-large">ใหญ่</button>
+      <button class="btn btn-secondary" data-size="text-xlarge">ใหญ่มาก</button>
+    </div>
+
+    <h2>ตัวอักษร</h2>
+    <h1>หัวข้อใหญ่ แปลงของฉัน</h1>
+    <h2>หัวข้อรอง พืชที่แนะนำ</h2>
+    <p>ข้อความเนื้อหา ดินร่วนเหมาะกับถั่วลิสง เดือนนี้ปลูกได้</p>
+    <p class="muted">ข้อความรอง ข้อมูลจากจุดสำรวจในอำเภอแม่ทะ</p>
+    <p><a href="#">ลิงก์ในข้อความ</a></p>
+    <a class="link-big" href="#">ปฏิทินปลูก</a>
+
+    <h2>ปุ่ม</h2>
+    <button class="btn btn-primary">ตรวจแปลงใหม่</button>
+    <button class="btn btn-secondary">แปลงของฉัน</button>
+    <button class="btn btn-secondary" disabled>กดไม่ได้</button>
+
+    <h2>การ์ดตัวเลือกพร้อมรูป</h2>
+    <label class="choice">
+      <input type="radio" name="soil" value="heavy">
+      <img class="choice-picture" src="assets/soil-heavy.svg" alt="">
+      <span class="choice-text">
+        <span class="choice-title">ดินเหนียว</span>
+        <span class="choice-hint">เนื้อแน่น แตกเป็นร่อง</span>
+      </span>
+    </label>
+    <label class="choice">
+      <input type="radio" name="soil" value="medium" checked>
+      <img class="choice-picture" src="assets/soil-medium.svg" alt="">
+      <span class="choice-text">
+        <span class="choice-title">ดินร่วน</span>
+        <span class="choice-hint">เป็นก้อนเล็ก ร่วนซุย</span>
+      </span>
+    </label>
+    <label class="choice">
+      <input type="radio" name="soil" value="light">
+      <img class="choice-picture" src="assets/soil-light.svg" alt="">
+      <span class="choice-text">
+        <span class="choice-title">ดินทราย/ร่วนปนทราย</span>
+        <span class="choice-hint">เม็ดละเอียด หลุดจากมือง่าย</span>
+      </span>
+    </label>
+
+    <h2>ช่องกรอก</h2>
+    <div class="field">
+      <label for="plot-name">ชื่อแปลง</label>
+      <input class="input" id="plot-name" type="text" value="แปลงหลังบ้าน">
+    </div>
+
+    <h2>การ์ดข้อความ</h2>
+    <div class="card">
+      <h3>ถั่วลิสง</h3>
+      <p><span class="stars" aria-hidden="true"><span class="stars-on">★★★★</span>★</span> 85 คะแนน</p>
+    </div>
+
+    <h2>ข้อความแจ้งเตือน</h2>
+    <div class="alert"><strong class="alert-title">ข้อมูล</strong>ยังไม่มีข้อมูลเดือนปลูกของพืชนี้</div>
+    <div class="alert alert-ok"><strong class="alert-title">บันทึกแล้ว</strong>ดูได้ที่หน้าแปลงของฉัน</div>
+    <div class="alert alert-warn"><strong class="alert-title">ดึงข้อมูลอากาศไม่ได้</strong>แอปใช้ค่าเฉลี่ยแทน กดลองใหม่เมื่อมีเน็ต</div>
+  </main>
+
+  <script>
+    // ปุ่มลองขนาดตัวอักษร ใช้เฉพาะหน้านี้
+    document.querySelectorAll("[data-size]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.documentElement.className = button.dataset.size;
+      });
+    });
+  </script>
+</body>
+</html>

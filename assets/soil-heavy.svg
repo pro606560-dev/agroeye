@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="ดินเหนียว เนื้อแน่นและแตกเป็นร่อง">
+  <rect width="96" height="96" fill="#5C4326"/>
+  <rect width="96" height="14" fill="#2F4A2A"/>
+  <g fill="none" stroke="#2B1E10" stroke-width="3" stroke-linejoin="round">
+    <path d="M22 14 L30 34 L20 52 L28 74 L22 96"/>
+    <path d="M62 14 L54 32 L66 50 L56 72 L64 96"/>
+    <path d="M30 34 L54 32"/>
+    <path d="M20 52 L0 58"/>
+    <path d="M66 50 L96 44"/>
+    <path d="M28 74 L56 72"/>
+  </g>
+</svg>
