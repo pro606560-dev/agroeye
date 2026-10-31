@@ -91,7 +91,13 @@
   border-top: 1px solid var(--color-line);
 }
 
-.other-row a { font-weight: 700; }
+/* ลิงก์ชื่อพืชต้องสูงพอให้นิ้วผู้สูงอายุแตะได้ง่าย */
+.other-row a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  font-weight: 700;
+}
 
 .result-actions { margin-top: var(--space-4); }
 #save-notice:not(:empty) { margin-top: var(--space-2); }

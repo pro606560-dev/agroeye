@@ -15,7 +15,8 @@ test("แหล่งเดียวกันได้เลขเดียว�
 
 test("ทุกรหัสแหล่งใน crops.json มีชื่อใน SOURCES.md", async () => {
   const [crops, sources] = await Promise.all([loadCrops(), loadSourceNames()]);
-  const fields = (crop) => [crop.plantingMonths, crop.cycleDays, crop.localEvidence, ...crop.care, ...crop.risks];
+  const fields = (crop) => [crop.plantingMonths, crop.cycleDays, crop.localEvidence, ...crop.care, ...crop.risks,
+    crop.ph, crop.texture, crop.drainage, crop.tempC, crop.rainMmYear, crop.light];
   crops.flatMap(fields).flatMap((field) => sourceCodesOf(field.source))
     .forEach((code) => assertTrue(sources.has(code), `ไม่พบ ${code}`));
 });

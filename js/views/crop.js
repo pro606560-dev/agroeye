@@ -27,7 +27,7 @@ async function renderCrop(container, cropId) {
 function cropPageHtml(crop, sources) {
   const citations = createCitations();
   const body = [
-    whyScoreHtml(crop),
+    whyScoreHtml(crop, citations),
     plantingHtml(crop.plantingMonths, citations),
     cycleHtml(crop.cycleDays, citations),
     careHtml(crop.care, citations),
@@ -57,7 +57,7 @@ function noDataHtml() {
 }
 
 // แสดงเมื่อเปิดจากแปลงที่เพิ่งตรวจ ถ้าเปิดลิงก์ตรง ๆ จะไม่มีข้อมูลแปลงให้เทียบ
-function whyScoreHtml(crop) {
+function whyScoreHtml(crop, citations) {
   if (!currentPlot) return "";
   const result = scoreCrop(currentPlot, crop, currentClimate());
   const rows = factorRows(result).map((row) => `
@@ -65,6 +65,7 @@ function whyScoreHtml(crop) {
       <div class="why-head"><strong>${row.label}</strong><span class="verdict">${row.verdict}</span></div>
       <div>แปลงนี้: ${row.plotText}</div>
       <div>พืชต้องการ: ${row.needText}</div>
+      ${row.needText === NO_VALUE_TEXT ? "" : citeHtml(citations.cite(crop[row.key]?.source))}
     </li>`).join("");
   const score = result.score === null ? "" : `<p>ได้ <strong>${result.score}</strong> คะแนน จาก 100</p>`;
   return sectionHtml("ทำไมได้คะแนนนี้", `${score}<ul class="why-list">${rows}</ul>`);
