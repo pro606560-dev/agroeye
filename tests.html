@@ -6,13 +6,14 @@
   <title>AgroEye ชุดทดสอบ</title>
   <style>
     body { font-family: system-ui, sans-serif; font-size: 18px; margin: 16px; color: #1a1a1a; background: #fff; }
-    #summary { font-size: 28px; font-weight: bold; padding: 12px 16px; border-radius: 8px; color: #fff; background: #555; }
-    #summary.pass { background: #1b6e2c; }
-    #summary.fail { background: #b3261e; }
-    #results { list-style: none; padding: 0; }
-    #results li { padding: 8px 12px; margin: 6px 0; border-left: 6px solid; overflow-wrap: anywhere; }
-    #results li.pass { border-color: #1b6e2c; background: #e8f5e9; }
-    #results li.fail { border-color: #b3261e; background: #fdecea; }
+    #summary, #exam-summary { font-size: 28px; font-weight: bold; padding: 12px 16px; border-radius: 8px; color: #fff; background: #555; }
+    #summary.pass, #exam-summary.pass { background: #1b6e2c; }
+    #summary.fail, #exam-summary.fail { background: #b3261e; }
+    #results, #exam-results { list-style: none; padding: 0; }
+    #results li, #exam-results li { padding: 8px 12px; margin: 6px 0; border-left: 6px solid; overflow-wrap: anywhere; }
+    #results li.pass, #exam-results li.pass { border-color: #1b6e2c; background: #e8f5e9; }
+    #results li.fail, #exam-results li.fail { border-color: #b3261e; background: #fdecea; }
+    #exam-results li.pending { border-color: #777; background: #eee; color: #444; }
     #results pre { margin: 6px 0 0; font-size: 16px; white-space: pre-wrap; }
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #999; padding: 6px 8px; text-align: left; }
@@ -20,7 +21,19 @@
 </head>
 <body>
   <h1>AgroEye ชุดทดสอบ</h1>
+  <p id="exam-summary">กำลังตรวจข้อสอบเฉลย...</p>
   <p id="summary">กำลังรัน...</p>
+
+  <h2>ข้อสอบเฉลย (จาก tests/expected.json)</h2>
+  <ul id="exam-results"></ul>
+
+  <h2>พืช 3 อันดับของแต่ละกรณี (เดือนพฤษภาคม ยังไม่มีข้อมูลอากาศ)</h2>
+  <table>
+    <thead><tr><th>กรณี</th><th>อันดับ 1</th><th>อันดับ 2</th><th>อันดับ 3</th></tr></thead>
+    <tbody id="scenario-body"></tbody>
+  </table>
+
+  <h2>ชุดทดสอบ</h2>
   <ul id="results"></ul>
 
   <h2>ความครอบคลุมของข้อมูลพืช</h2>
@@ -32,13 +45,17 @@
   <script src="js/config.js"></script>
   <script src="js/validate.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/reasons.js"></script>
   <script src="tests/runner.js"></script>
   <script src="tests/coverage-table.js"></script>
+  <script src="tests/exam.js"></script>
   <!-- เพิ่มไฟล์เทสต์ใหม่ที่นี่ -->
   <script src="tests/sample.test.js"></script>
   <script src="tests/data.test.js"></script>
+  <script src="tests/scoring.test.js"></script>
   <script>
-    runTests().then(showCoverageTable);
+    runTests().then(showCoverageTable).then(showExam);
   </script>
 </body>
 </html>
