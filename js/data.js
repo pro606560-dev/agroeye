@@ -45,6 +45,28 @@ function parseSourceCodes(markdown) {
   return codes;
 }
 
+// อ่านชื่อและลิงก์ของแต่ละแหล่งจากตารางใน SOURCES.md คืน Map ของ รหัส => { title, url }
+function parseSourceNames(markdown) {
+  const names = new Map();
+  for (const line of markdown.split("\n")) {
+    const match = line.match(/^\|\s*([A-Z][A-Z0-9-]+)\s*\|\s*(.+?)\s*\|/);
+    if (!match) continue;
+    const [title, url = null] = match[2].split(/\s+—\s+(?=https:)/);
+    names.set(match[1], { title, url: url?.split(" ")[0] ?? null });
+  }
+  return names;
+}
+
+// คืน Map ว่างถ้าอ่านไม่ได้ หน้าพืชจะแสดงรหัสแหล่งแทนชื่อ
+async function loadSourceNames(url = SOURCES_URL) {
+  try {
+    return parseSourceNames(await fetchText(url));
+  } catch (err) {
+    console.warn(`อ่าน ${url} ไม่ได้: ${err.message}`);
+    return new Map();
+  }
+}
+
 // คืน null ถ้าอ่านรหัสไม่ได้ เพื่อให้ข้ามการตรวจรหัสแหล่ง แทนที่จะตัดพืชทิ้งทั้งหมด
 async function loadSourceCodes(url = SOURCES_URL) {
   try {

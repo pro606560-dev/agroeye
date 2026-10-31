@@ -11,6 +11,11 @@ async function getCrops() {
   return loadedCrops;
 }
 
+// ยังไม่มีข้อมูลอากาศ จึงคืน null ปัจจัยอุณหภูมิและฝนจะถูกตัดออก (task 10 จะคืนค่าจริง)
+function currentClimate() {
+  return null;
+}
+
 async function renderResult(container) {
   if (!currentPlot) {
     showResultMessage(container, "ยังไม่มีข้อมูลแปลง",
@@ -25,8 +30,7 @@ async function renderResult(container) {
       "แอปจึงยังแนะนำพืชไม่ได้ ลองรีเฟรชหน้านี้ แล้วกรอกข้อมูลอีกครั้ง");
     return;
   }
-  // ยังไม่มีข้อมูลอากาศ จึงส่ง null ปัจจัยอุณหภูมิและฝนจะถูกตัดออก (task 10 จะส่งค่าจริง)
-  const ranking = rankCrops(currentPlot, crops, null);
+  const ranking = rankCrops(currentPlot, crops, currentClimate());
   container.innerHTML = resultPageHtml(currentPlot, ranking, crops);
   container.querySelector("#save-plot").addEventListener("click", () => showSaveNotice(container));
   container.querySelector("h2").focus({ preventScroll: true });
