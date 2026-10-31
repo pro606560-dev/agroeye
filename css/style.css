@@ -123,6 +123,7 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
 }
 
 .topbar-back:hover { background: var(--color-primary-dark); }
+.topbar-back[hidden] { display: none; }
 
 /* แถบชั้นดิน: จุดเด่นของแอป เหมือนภาพตัดขวางดิน ซ้อนอยู่ใต้แถบหัว */
 .soil-band {
@@ -173,6 +174,11 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
   min-height: var(--button-height);
   font-weight: 700;
 }
+
+/* หน้าแรก */
+.slot { margin-bottom: var(--space-3); }
+.slot:empty { display: none; }
+.home-links { margin-top: var(--space-3); }
 
 /* การ์ดข้อความ */
 .card {
