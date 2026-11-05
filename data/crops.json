@@ -24,17 +24,17 @@
       "ph": { "optimal": [5.0, 7.0], "tolerable": [4.5, 8.5], "source": "ECOCROP-MAIZE" },
       "tempC": { "optimal": [18, 33], "tolerable": [10, 47], "source": "ECOCROP-MAIZE" },
       "rainMmYear": { "optimal": [600, 1200], "tolerable": [400, 1800], "source": "ECOCROP-MAIZE" },
-      "texture": { "good": null, "ok": null, "source": null },
-      "drainage": { "value": null, "source": null },
+      "texture": { "good": ["medium", "light"], "ok": [], "source": "LDD-MAIZE-REQ", "note": "กรมพัฒนาที่ดินระบุเนื้อดินที่ข้าวโพดต้องการ: ร่วนปนทราย ร่วน ร่วนปนทรายแป้ง ร่วนเหนียว (sl, l, sil, cl) ไม่มีดินเหนียว ดินทรายจัดก็ไม่อยู่ในรายการ แต่แอปรวมไว้ในกลุ่ม light กับร่วนปนทราย" },
+      "drainage": { "value": "good", "source": "LDD-MAIZE-REQ, MJU-MAIZE", "note": "ดินระบายน้ำดี (ชั้น 5–6) เหมาะที่สุด ดินระบายน้ำเลวมาก (ชั้น 1–2) ไม่เหมาะ น้ำขังในเขตรากนาน 36 ชั่วโมงทำให้ต้นข้าวโพดเสียหาย" },
       "light": { "value": "full-sun", "source": "ECOCROP-MAIZE" },
-      "plantingMonths": { "months": null, "note": "ส่วนใหญ่ปลูกช่วงฤดูฝน", "source": "STOU-MAIZE-MAETHA" },
-      "cycleDays": { "value": null, "source": null },
+      "plantingMonths": { "months": [4, 5, 6, 7, 8], "note": "รุ่นฤดูฝน: ต้นฝน เม.ย.–มิ.ย. หรือปลายฝน ก.ค.–ส.ค. (แม่โจ้) ไม่รวมรุ่นหลังนา พ.ย.–ธ.ค. เพราะต้องมีแหล่งน้ำ และไร่ข้าวโพดแม่ทะเกือบทั้งหมดอยู่นอกเขตชลประทาน ส่วนใหญ่ปลูกในฤดูฝน (มสธ.)", "source": "MJU-MAIZE, STOU-MAIZE-MAETHA" },
+      "cycleDays": { "value": [110, 120], "source": "LDD-MAIZE-REQ" },
       "care": [],
       "risks": [
         { "risk": "หนอนกระทู้ข้าวโพดลายจุด", "fix": "หมั่นสำรวจไร่ ถ้าพบให้ปรึกษาเกษตรอำเภอ", "source": "DOAE-FAW-NEWS" }
       ],
       "localEvidence": { "text": "พืชที่ปลูกมากที่สุดใน ต.หัวเสือ (15,036 ไร่) เกษตรกรเฉลี่ยขาดทุนเล็กน้อยต่อไร่", "source": "LDD-HUASUEA-2567" },
-      "todo": ["texture", "drainage", "plantingMonths.months", "cycleDays", "care"]
+      "todo": ["care"]
     },
     {
       "id": "rice-rd6",

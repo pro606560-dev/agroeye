@@ -258,7 +258,7 @@ test("ตารางความครอบคลุม: มีครบ 12 �
 test("ตารางความครอบคลุม: นับปัจจัยตรงกับที่นับด้วยมือ", async () => {
   const report = dataCoverageReport(await loadCrops());
   const usableOf = (id) => report.find((row) => row.id === id).usable;
-  assertEqual(usableOf("maize"), 4, "ข้าวโพด");
+  assertEqual(usableOf("maize"), 7, "ข้าวโพด"); // เดิม 4 เพิ่มดิน น้ำขัง เดือนปลูก (LDD-MAIZE-REQ, MJU-MAIZE)
   assertEqual(usableOf("longan"), 2, "ลำไย");
   assertEqual(usableOf("rubber"), 5, "ยางพารา");
   assertEqual(usableOf("cassava"), 7, "มันสำปะหลัง");
