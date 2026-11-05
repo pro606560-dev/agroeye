@@ -36,7 +36,7 @@ async function renderResult(container) {
   }
   const ranking = rankCrops(currentPlot, crops, currentClimate());
   container.innerHTML = resultPageHtml(currentPlot, ranking, crops);
-  container.querySelector("#save-plot").addEventListener("click", () => showSaveNotice(container));
+  setupSaveButton(container, ranking, crops);
   container.querySelector("h2").focus({ preventScroll: true });
 }
 
@@ -48,10 +48,54 @@ function showResultMessage(container, title, message) {
   container.querySelector("h2").focus({ preventScroll: true });
 }
 
-// แยกการเก็บแปลงจริงไว้ task 11 ตอนนี้บอกตรง ๆ ว่ายังไม่ได้บันทึก
-function showSaveNotice(container) {
+// ---------- บันทึกแปลง (task 11) ----------
+
+const SAVE_FAILED_HTML = `
+  <div class="alert alert-warn">
+    <strong class="alert-title">บันทึกไม่ได้</strong>
+    <p>เครื่องนี้เก็บข้อมูลไม่ได้ในตอนนี้ ผลยังดูได้ในหน้านี้ แต่จะหายเมื่อปิดแอป
+    ลองปิดโหมดไม่ระบุตัวตน หรือลบรูปและแอปที่ไม่ใช้ แล้วกดบันทึกอีกครั้ง</p>
+  </div>`;
+
+let savedPlotObject = null; // currentPlot ที่บันทึกแล้ว กันการบันทึกซ้ำเมื่อกลับมาหน้านี้
+
+function setupSaveButton(container, ranking, crops) {
+  const button = container.querySelector("#save-plot");
+  if (savedPlotObject === currentPlot) {
+    showSaved(container, button);
+  } else if (linkedPlotId) {
+    button.textContent = "บันทึกเป็นรอบใหม่ของแปลงนี้";
+  }
+  const { recommended } = splitRecommendations(ranking);
+  const nowTop3 = topThreeOf(recommended);
+  showCompare(container, crops, nowTop3);
+  button.addEventListener("click", () => {
+    const round = makeRound(currentPlot, wizardDraft, recommended, currentClimate() !== null);
+    const id = saveRound(linkedPlotId, round);
+    if (!id) {
+      container.querySelector("#save-notice").innerHTML = SAVE_FAILED_HTML;
+      return;
+    }
+    linkedPlotId = id;
+    savedPlotObject = currentPlot;
+    showSaved(container, button);
+    showCompare(container, crops, nowTop3);
+  });
+}
+
+function showSaved(container, button) {
+  button.disabled = true;
+  button.textContent = "บันทึกแล้ว";
   container.querySelector("#save-notice").innerHTML = `
-    <div class="alert">ปุ่มบันทึกกำลังสร้าง ผลนี้จึงยังไม่ถูกเก็บไว้ในเครื่อง</div>`;
+    <div class="alert alert-ok">บันทึกแปลงนี้แล้ว ดูได้ที่ <a href="#/plots">แปลงของฉัน</a></div>`;
+}
+
+// ถ้าเป็นแปลงเดิม แสดงเทียบกับครั้งก่อน (ก่อนบันทึก = รอบล่าสุดที่เก็บไว้, หลังบันทึก = รอบก่อนหน้านั้น)
+function showCompare(container, crops, nowTop3) {
+  const record = linkedPlotId ? findSavedPlot(linkedPlotId) : null;
+  if (!record) return;
+  const before = savedPlotObject === currentPlot ? record.earlier?.[0] : record;
+  container.querySelector("#compare-slot").innerHTML = before ? compareHtml(before, nowTop3, crops) : "";
 }
 
 function cropById(crops, id) {
@@ -67,6 +111,7 @@ function resultPageHtml(plot, ranking, crops) {
     ${hintsHtml(plot)}
     ${othersHtml(others, crops)}
     ${notEnoughHtml(ranking.notEnoughData, crops)}
+    <div id="compare-slot"></div>
     <div class="result-actions">
       <button id="save-plot" class="btn btn-primary" type="button">บันทึกแปลงนี้</button>
       <div id="save-notice" role="status"></div>

@@ -6,9 +6,11 @@ const FIRST_STEP = WIZARD_STEPS[0];
 
 let wizardDraft = null; // คำตอบระหว่างกรอก
 let currentPlot = null; // ข้อมูลแปลงที่กรอกเสร็จแล้ว หน้าผลลัพธ์อ่านจากตัวนี้
+let linkedPlotId = null; // รหัสแปลงที่บันทึกไว้ ถ้ากำลังตรวจแปลงเดิมซ้ำ (task 11) ถ้าเป็นแปลงใหม่เป็น null
 
 function startNewDraft() {
   wizardDraft = createDraft(new Date().getMonth() + 1);
+  linkedPlotId = null;
   // แก้ URL โดยไม่เพิ่มประวัติ ไม่อย่างนั้นปุ่มย้อนกลับจะวนกลับมาล้างคำตอบ
   window.history.replaceState(null, "", `#/input/${FIRST_STEP}`);
 }
@@ -96,6 +98,19 @@ function leaveStep(step) {
   const next = nextStep(wizardDraft, step);
   if (next) {
     window.location.hash = `#/input/${next}`;
+    return;
+  }
+  currentPlot = buildPlot(wizardDraft);
+  window.location.hash = "#/result";
+}
+
+// เริ่มจากแปลงที่บันทึกไว้: "recheck" = ตรวจใหม่ด้วยข้อมูลเดิม, "edit" = กลับไปแก้คำตอบ
+// ผลที่บันทึกต่อจากนี้จะเป็นรอบใหม่ของแปลงเดิม
+function startFromSaved(record, mode) {
+  wizardDraft = structuredClone(record.answers);
+  linkedPlotId = record.id;
+  if (mode === "edit") {
+    window.location.hash = `#/input/${activeSteps(wizardDraft)[0]}`;
     return;
   }
   currentPlot = buildPlot(wizardDraft);

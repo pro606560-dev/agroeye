@@ -1,0 +1,45 @@
+/* หน้าแปลงของฉัน: รายการแปลง ตารางเทียบ และหน้าต่างยืนยันการลบ */
+
+.plot-list { list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+.plot-list li + li { margin-top: var(--space-2); }
+
+.plot-row {
+  display: block;
+  color: var(--color-ink);
+  text-decoration: none;
+  border-left: 6px solid var(--color-primary);
+}
+.plot-row:hover { background: var(--color-primary-tint); }
+.plot-row span { display: block; }
+.plot-row-name { display: block; font-size: var(--text-h2); color: var(--color-primary); }
+
+.saved-top { margin: 0; padding-left: 1.4em; }
+.saved-top li + li { margin-top: var(--space-1); }
+
+.compare { margin-top: var(--space-3); }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th,
+.compare-table td {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+  vertical-align: top;
+}
+.compare-table th:first-child,
+.compare-table td:last-child { white-space: nowrap; }
+
+/* ปุ่มลบ: สีดินแดง แยกห่างจากปุ่มอื่นเพื่อไม่ให้กดพลาด */
+.btn-danger { background: var(--color-warn); border-color: var(--color-warn); color: #FFFFFF; }
+.btn-danger:hover { background: #6E2D17; }
+#delete { margin-top: var(--space-5); }
+
+.dialog {
+  width: min(92vw, 420px);
+  padding: var(--space-4);
+  border: var(--border-thick) solid var(--color-ink);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+.dialog::backdrop { background: rgba(0, 0, 0, 0.55); }
+.dialog h2 { margin-top: 0; }

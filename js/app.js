@@ -8,6 +8,7 @@ const VIEWS = {
   input: renderInput,
   result: renderResult,
   crop: renderCrop,
+  plots: renderPlots,
 };
 
 // นับจำนวนหน้าที่เปิดในแอปรอบนี้ เพื่อรู้ว่ากดย้อนกลับแล้วยังอยู่ในแอปไหม

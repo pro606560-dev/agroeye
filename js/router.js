@@ -7,7 +7,7 @@ const ROUTES = {
   input: { title: "ตรวจแปลงใหม่", optionalParam: true },
   result: { title: "ผลการตรวจ" },
   crop: { title: "รายละเอียดพืช", hasParam: true },
-  plots: { title: "แปลงของฉัน" },
+  plots: { title: "แปลงของฉัน", optionalParam: true },
   calendar: { title: "ปฏิทินปลูก" },
   proof: { title: "พิสูจน์สมมติฐาน" },
   settings: { title: "ตั้งค่า" },
