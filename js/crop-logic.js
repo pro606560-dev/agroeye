@@ -3,7 +3,8 @@
 const NO_DATA_TEXT = "ยังไม่มีข้อมูล — สอบถามเกษตรอำเภอแม่ทะ";
 const NO_VALUE_TEXT = "ยังไม่มีข้อมูล";
 
-const VERDICT_WORDS = { 1: "ผ่าน", 0.5: "พอได้", 0: "ไม่ผ่าน" };
+// 0.25 เกิดได้จากตัวกรองความหนาวเท่านั้น (0.5 × 0.5)
+const VERDICT_WORDS = { 1: "ผ่าน", 0.5: "พอได้", 0.25: "ไม่ค่อยดี", 0: "ไม่ผ่าน" };
 const DRAINAGE_WORDS = { good: "น้ำไม่ขัง", poor: "น้ำขัง" };
 const LIGHT_WORDS = { "full-sun": "แดดจัด", shade: "ร่มรำไร" };
 const CROP_DRAINAGE_WORDS = { good: "น้ำไม่ขัง", "poor-ok": "ทนน้ำขังได้" };
@@ -81,11 +82,11 @@ const FACTOR_TEXTS = {
     need: (months) => monthNames(months),
   },
   tempC: {
-    plot: (value) => `${value} องศา`,
+    plot: tempPlotText,
     need: (range) => rangeNeedText(range, "", " องศา"),
   },
   rainMmYear: {
-    plot: (value) => `${value} มม. ต่อปี`,
+    plot: (value) => `${value.toLocaleString("en-US")} มม. ต่อปี`, // 1107 → "1,107"
     need: (range) => rangeNeedText(range, "", " มม. ต่อปี"),
   },
   light: {
@@ -94,6 +95,18 @@ const FACTOR_TEXTS = {
   },
 };
 
+// "27.5 องศา (เฉลี่ย พ.ค.–ธ.ค.)" หรือ "26.7 องศา (เฉลี่ยทั้งปี)" และบอกถ้าหน้าหนาวเย็นเกินไป
+function tempPlotText(value, factor) {
+  const months = factor.tempMonths;
+  let basis = "เฉลี่ยทั้งปี";
+  if (months && months.length === 1) basis = `เฉลี่ยเดือน ${MONTH_NAMES[months[0] - 1]}`;
+  if (months && months.length > 1) {
+    basis = `เฉลี่ย ${MONTH_NAMES[months[0] - 1]}–${MONTH_NAMES[months[months.length - 1] - 1]}`;
+  }
+  const cold = factor.coldPenalty ? " แต่หน้าหนาวเย็นเกินไปสำหรับพืชนี้" : "";
+  return `${value} องศา (${basis})${cold}`;
+}
+
 function factorRow(factor) {
   const texts = FACTOR_TEXTS[factor.key];
   const info = FACTORS.find((f) => f.key === factor.key);
@@ -101,7 +114,7 @@ function factorRow(factor) {
   return {
     key: factor.key,
     label: info.plainLabel ?? info.label,
-    plotText: factor.plotValue === null ? NO_VALUE_TEXT : texts.plot(factor.plotValue),
+    plotText: factor.plotValue === null ? NO_VALUE_TEXT : texts.plot(factor.plotValue, factor),
     needText: need ?? NO_VALUE_TEXT,
     verdict: factor.used ? VERDICT_WORDS[factor.factorScore] : NO_VALUE_TEXT,
   };

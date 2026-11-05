@@ -11,9 +11,12 @@ async function getCrops() {
   return loadedCrops;
 }
 
-// ยังไม่มีข้อมูลอากาศ จึงคืน null ปัจจัยอุณหภูมิและฝนจะถูกตัดออก (task 10 จะคืนค่าจริง)
+const NO_CLIMATE_NOTE = "รอบนี้อ่านข้อมูลอากาศไม่ได้ จึงคิดคะแนนโดยไม่ใช้อุณหภูมิและฝน";
+let loadedResultClimate = null; // ข้อมูลอากาศจาก js/weather.js ถ้าโหลดไม่ได้เป็น null
+
+// ข้อมูลอากาศที่ใช้คิดคะแนน (หน้าพืชใช้ค่าเดียวกับหน้าผล)
 function currentClimate() {
-  return null;
+  return loadedResultClimate;
 }
 
 async function renderResult(container) {
@@ -24,6 +27,7 @@ async function renderResult(container) {
   }
   container.innerHTML = `<h2 tabindex="-1">กำลังคิดผล</h2>`;
   const crops = await getCrops();
+  loadedResultClimate = await getClimate();
   if (window.location.hash !== "#/result") return; // ผู้ใช้ออกจากหน้านี้ระหว่างรอโหลด
   if (crops.length === 0) {
     showResultMessage(container, "โหลดข้อมูลพืชไม่ได้",
@@ -68,7 +72,8 @@ function resultPageHtml(plot, ranking, crops) {
       <div id="save-notice" role="status"></div>
       <a class="btn btn-secondary" href="#/input">ตรวจใหม่</a>
     </div>
-    <p class="disclaimer">${DISCLAIMER}</p>`;
+    <p class="disclaimer">${DISCLAIMER}</p>
+    <p class="disclaimer">${currentClimate() ? CLIMATE_NOTE : NO_CLIMATE_NOTE}</p>`;
 }
 
 // เนื้อดินที่ผู้ใช้ทดสอบเอง บอกความมั่นใจต่อท้าย ไม่ตัดคะแนน

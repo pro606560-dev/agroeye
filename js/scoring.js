@@ -4,7 +4,8 @@
 // ค่าที่ใช้:
 // plot    = { ph, texture, drainage, month, light }  ค่าที่ไม่รู้ให้เป็น null
 //           light คือ "full-sun" (แดดจัด) หรือ "shade" (ร่มรำไร)
-// climate = { monthlyTempC: [ค่าเดือน 1..12], rainMmYear } หรือ null ถ้าไม่มีข้อมูลอากาศ
+// climate = { monthlyTempC: [ค่าเดือน 1..12], annualMeanTempC, coldestMonthMinTempC, rainMmYear }
+//           หรือ null ถ้าไม่มีข้อมูลอากาศ (มาจาก js/weather.js ช่องที่ไม่มีให้เป็น null)
 
 // ---------- คะแนนแต่ละปัจจัย: คืน 1, 0.5, 0 หรือ null (ไม่มีข้อมูล) ----------
 
@@ -53,6 +54,60 @@ function scoreLight(plotLight, cropLight) {
   return cropLight === "full-sun" && plotLight === "shade" ? 0 : 1;
 }
 
+// ---------- อุณหภูมิ (docs/SPEC.md ข้อ 4.1 และ 4.1.1) ----------
+
+// จำนวนเดือนที่พืชล้มลุกอยู่ในแปลง นับเดือนที่ปลูกเป็นเดือนแรก
+// - ข้าวไวแสง: ปลูกจนถึงเดือนที่เก็บเกี่ยว (harvestApprox เช่น "11-21" = พ.ย.)
+// - พืชที่มีอายุเป็นช่วง [สั้นสุด, นานสุด] วัน: ใช้อายุสั้นสุด เช่น 240 วัน = 8 เดือน
+// - ไม่มีข้อมูลอายุพืช: ใช้เดือนที่ปลูกเดือนเดียว (ผู้ใช้เลือก 5 พ.ย. 2569)
+function monthsInField(plantMonth, crop) {
+  const harvest = crop.harvestApprox?.value;
+  if (harvest) {
+    const harvestMonth = Number(harvest.split("-")[0]);
+    return ((harvestMonth - plantMonth + 12) % 12) + 1;
+  }
+  const days = crop.cycleDays?.value;
+  if (days) return Math.min(12, Math.max(1, Math.round(days[0] / DAYS_PER_MONTH)));
+  return 1;
+}
+
+// รายชื่อเดือน (1–12) ที่พืชอยู่ในแปลง วนข้ามปีได้ เช่น ปลูก พ.ย. 3 เดือน = [11, 12, 1]
+function fieldMonthList(plantMonth, crop) {
+  const count = monthsInField(plantMonth, crop);
+  return Array.from({ length: count }, (_, i) => ((plantMonth - 1 + i) % 12) + 1);
+}
+
+function average(values) {
+  return values.reduce((total, value) => total + value, 0) / values.length;
+}
+
+// อุณหภูมิของแปลงที่ใช้เทียบกับพืช
+// - ไม้ยืนต้น (tempBasis = "annual_mean") อยู่ในแปลงทั้งปี จึงใช้อุณหภูมิเฉลี่ยทั้งปี
+// - พืชล้มลุก ใช้อุณหภูมิเฉลี่ยของเดือนที่อยู่ในแปลง ต้องรู้เดือนที่ปลูก
+// ปัดเป็นทศนิยม 1 ตำแหน่ง ให้ตรงกับตัวเลขที่แสดงบนหน้าจอ
+function plotTempC(plot, crop, climate) {
+  if (!climate) return null;
+  if (crop.tempBasis === "annual_mean") return climate.annualMeanTempC ?? null;
+  if (plot.month == null || !climate.monthlyTempC) return null;
+  const temps = fieldMonthList(plot.month, crop).map((m) => climate.monthlyTempC[m - 1]);
+  return Math.round(average(temps) * 10) / 10;
+}
+
+// ตัวกรองความหนาว: หนาวเกินไปถ้าต่ำสุดเฉลี่ยของเดือนที่หนาวที่สุดต่ำกว่าขอบล่างของ coldLimitC
+// พืชที่ไม่มี coldLimitC หรือไม่มีข้อมูลต่ำสุด = ไม่กรอง
+function isTooCold(crop, climate) {
+  const limit = crop.coldLimitC?.value;
+  const coldest = climate?.coldestMonthMinTempC;
+  return limit != null && coldest != null && coldest < limit[0];
+}
+
+// คะแนนอุณหภูมิ = แบบเดียวกับ pH แล้วคูณ COLD_PENALTY_FACTOR ถ้าหนาวเกินไป (ลด ไม่ตัดเป็น 0)
+function scoreTemp(value, range, crop, climate) {
+  const base = scoreRange(value, range.optimal, range.tolerable);
+  if (base === null || !isTooCold(crop, climate)) return base;
+  return base * COLD_PENALTY_FACTOR;
+}
+
 // ---------- รายการปัจจัย: แต่ละปัจจัยอ่านค่าจากไหน และให้คะแนนอย่างไร ----------
 
 const readRange = (field) => ({ optimal: field.optimal, tolerable: field.tolerable });
@@ -84,9 +139,9 @@ const FACTOR_RULES = [
   },
   {
     key: "tempC",
-    plotValue: (plot, climate) => climate?.monthlyTempC?.[plot.month - 1],
+    plotValue: (plot, climate, crop) => plotTempC(plot, crop, climate),
     cropRange: (crop) => readRange(crop.tempC),
-    score: (value, range) => scoreRange(value, range.optimal, range.tolerable),
+    score: scoreTemp,
   },
   {
     key: "rainMmYear",
@@ -103,11 +158,20 @@ const FACTOR_RULES = [
 ];
 
 function scoreFactor(rule, plot, crop, climate) {
-  const plotValue = rule.plotValue(plot, climate) ?? null;
+  const plotValue = rule.plotValue(plot, climate, crop) ?? null;
   const cropRange = rule.cropRange(crop);
-  const factorScore = rule.score(plotValue, cropRange);
+  const factorScore = rule.score(plotValue, cropRange, crop, climate);
   const weight = SCORE_WEIGHTS[rule.key];
-  return { key: rule.key, plotValue, cropRange, factorScore, weight, used: factorScore !== null };
+  const factor = { key: rule.key, plotValue, cropRange, factorScore, weight, used: factorScore !== null };
+  if (rule.key === "tempC") addTempDetails(factor, plot, crop, climate);
+  return factor;
+}
+
+// เก็บที่มาของอุณหภูมิไว้แสดงบนหน้าจอ: เฉลี่ยทั้งปี หรือเฉลี่ยเดือนไหนบ้าง และโดนลดเพราะหนาวไหม
+function addTempDetails(factor, plot, crop, climate) {
+  if (factor.plotValue === null) return;
+  factor.tempMonths = crop.tempBasis === "annual_mean" ? null : fieldMonthList(plot.month, crop);
+  factor.coldPenalty = factor.used && isTooCold(crop, climate);
 }
 
 // ---------- คะแนนรวมของพืช 1 ชนิด ----------

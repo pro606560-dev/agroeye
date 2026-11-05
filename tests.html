@@ -33,6 +33,12 @@
     <tbody id="scenario-body"></tbody>
   </table>
 
+  <h2>พืช 3 อันดับของแต่ละกรณี (เดือนพฤษภาคม ใช้ข้อมูลอากาศจริง)</h2>
+  <table>
+    <thead><tr><th>กรณี</th><th>อันดับ 1</th><th>อันดับ 2</th><th>อันดับ 3</th></tr></thead>
+    <tbody id="scenario-climate-body"></tbody>
+  </table>
+
   <h2>ชุดทดสอบ</h2>
   <ul id="results"></ul>
 
@@ -46,6 +52,7 @@
   <script src="js/validate.js"></script>
   <script src="js/data.js"></script>
   <script src="js/scoring.js"></script>
+  <script src="js/weather.js"></script>
   <script src="js/reasons.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/router.js"></script>
@@ -53,6 +60,7 @@
   <script src="js/soil-test.js"></script>
   <script src="js/result-logic.js"></script>
   <script src="js/crop-logic.js"></script>
+  <script src="js/views/home.js"></script>
   <script src="tests/runner.js"></script>
   <script src="tests/coverage-table.js"></script>
   <script src="tests/exam.js"></script>
@@ -65,6 +73,7 @@
   <script src="tests/soil.test.js"></script>
   <script src="tests/result.test.js"></script>
   <script src="tests/crop.test.js"></script>
+  <script src="tests/weather.test.js"></script>
   <script>
     runTests().then(showCoverageTable).then(showExam);
   </script>

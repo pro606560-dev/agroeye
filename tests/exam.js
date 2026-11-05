@@ -86,9 +86,9 @@ function showExamSummary(items) {
   summary.className = allPassed ? "pass" : "fail";
 }
 
-function showScenarioTable(settings, scenarios, crops) {
+function showScenarioTable(settings, scenarios, crops, bodyId = "scenario-body") {
   const nameOf = (result) => crops.find((crop) => crop.id === result.cropId).nameTh;
-  const body = document.getElementById("scenario-body");
+  const body = document.getElementById(bodyId);
   for (const { scenario, ranked } of rankAllScenarios(settings, scenarios, crops)) {
     const row = document.createElement("tr");
     addCell(row, scenario.name);
@@ -116,4 +116,7 @@ async function showExam() {
   showExamSummary(items);
   showExamItems(items);
   showScenarioTable(settings, scenarios, crops);
+  // ตารางที่ 2 ใช้ข้อมูลอากาศจริง (task 10) ข้อสอบเฉลยด้านบนยังไม่ใช้ข้อมูลอากาศเหมือนเดิม
+  const withClimate = { ...settings, climate: await getClimate() };
+  showScenarioTable(withClimate, scenarios, crops, "scenario-climate-body");
 }

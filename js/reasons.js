@@ -58,12 +58,18 @@ function lightReason(factor) {
   return "แสงที่แปลงเหมาะกับพืชนี้";
 }
 
+// ตัวกรองความหนาว (js/scoring.js) ลดคะแนนแล้ว จึงบอกเหตุผลเรื่องหน้าหนาวแทน
+function tempReason(factor) {
+  if (factor.coldPenalty) return "หน้าหนาวที่นี่เย็นเกินไปสำหรับพืชนี้ จึงลดคะแนนอุณหภูมิลง";
+  return levelReason("อุณหภูมิ", factor.factorScore);
+}
+
 const REASON_BUILDERS = {
   ph: phReason,
   texture: textureReason,
   drainage: drainageReason,
   plantingMonths: monthReason,
-  tempC: (factor) => levelReason("อุณหภูมิ", factor.factorScore),
+  tempC: tempReason,
   rainMmYear: (factor) => levelReason("ปริมาณฝน", factor.factorScore),
   light: lightReason,
 };

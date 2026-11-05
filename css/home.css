@@ -1,0 +1,11 @@
+/* หน้าแรก: อากาศวันนี้ ตัวเลขใหญ่ อ่านง่าย */
+.weather-card {
+  background: var(--color-surface);
+  border: var(--border-thick) solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+.weather-row { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+.weather-item { display: flex; flex-direction: column; }
+.weather-label { color: var(--color-ink-soft); }
+.weather-value { font-size: 2.5rem; font-weight: 700; line-height: 1.2; }
