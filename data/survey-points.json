@@ -9,7 +9,7 @@
       "texture": "heavy",
       "textureNote": "ดินเหนียว (ทีมลงพื้นที่เก็บตัวอย่างแล้ว)",
       "ph": 4,
-      "phNote": "วัดด้วยชุดทดสอบภาคสนาม ได้ pH 4 (ดินเปรี้ยวจัด)",
+      "phNote": "วัดด้วยชุดทดสอบภาคสนาม ได้ pH 4 ดินเปรี้ยวมาก (กรดจัด)",
       "drainage": null,
       "currentCrop": null,
       "goodCropsByOwner": [],

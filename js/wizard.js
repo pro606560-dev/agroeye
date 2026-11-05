@@ -1,10 +1,15 @@
 // ตรรกะของหน้ากรอกข้อมูล ไม่แตะหน้าจอ จึงทดสอบใน tests.html ได้
 // draft คือคำตอบระหว่างกรอก ค่าตัวเลขเก็บเป็นข้อความตามที่พิมพ์ แล้วค่อยแปลงตอนจบ
 
-const WIZARD_STEPS = ["name", "soil", "ph", "water", "month", "extra"];
+// เนื้อดินมี 3 ขั้นทดสอบ (ปั้นเส้น, ขวดน้ำ, คำถามประสบการณ์) ก่อนขั้นเลือกดิน
+const WIZARD_STEPS = ["name", "soil-ball", "soil-bottle", "soil-feel", "soil", "ph", "water", "month", "extra"];
 
 // ขั้นที่ไม่ต้องถาม ถ้าจุดสำรวจมีค่าของขั้นนั้นแล้ว
-const STEP_OF_PREFILLED = { texture: "soil", phText: "ph", drainage: "water" };
+const STEPS_OF_PREFILLED = {
+  texture: ["soil-ball", "soil-bottle", "soil-feel", "soil"],
+  phText: ["ph"],
+  drainage: ["water"],
+};
 
 // คำตอบ "ไม่ทราบ" ของขั้นน้ำขัง ต้องแยกจาก null ซึ่งแปลว่ายังไม่ได้ตอบ
 const ANSWER_UNKNOWN = "unknown";
@@ -15,6 +20,14 @@ function createDraft(currentMonth) {
     surveyPointId: null,
     surveyPointName: null,
     prefilled: [],
+    ballAnswer: null,
+    bottleSandText: "",
+    bottleTotalText: "",
+    bottleCloudy: null,
+    feelSticky: null,
+    feelCracks: null,
+    feelPonding: null,
+    feelSandy: null,
     texture: null,
     phText: "",
     drainage: null,
@@ -53,7 +66,7 @@ function applySurveyPoint(draft, point) {
 // ---------- ลำดับขั้น ----------
 
 function activeSteps(draft) {
-  const skipped = draft.prefilled.map((key) => STEP_OF_PREFILLED[key]);
+  const skipped = draft.prefilled.flatMap((key) => STEPS_OF_PREFILLED[key]);
   return WIZARD_STEPS.filter((step) => !skipped.includes(step));
 }
 
@@ -98,8 +111,9 @@ function extraError(draft) {
   return null;
 }
 
-// คำง่ายที่แสดงข้างตัวเลข pH
+// คำง่ายที่แสดงข้างตัวเลข pH แบ่ง 4 กลุ่ม (เกณฑ์ใน js/config.js)
 function phWord(ph) {
+  if (ph <= PH_VERY_ACID_MAX) return "ดินเปรี้ยวมาก";
   if (ph < PH_NORMAL_MIN) return "ดินเปรี้ยว";
   return ph > PH_NORMAL_MAX ? "ดินเป็นด่าง" : "ปกติ";
 }
@@ -114,6 +128,7 @@ function buildPlot(draft) {
     surveyPointId: draft.surveyPointId,
     ph: parseDecimal(draft.phText),
     texture: draft.texture,
+    textureConfidence: draft.texture ? textureConfidence(draft) : null,
     drainage: draft.drainage === ANSWER_UNKNOWN ? null : draft.drainage,
     month: draft.month === null ? null : Number(draft.month),
     light: draft.light,

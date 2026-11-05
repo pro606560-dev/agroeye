@@ -138,13 +138,39 @@ function checkCycleDays(cycleDays) {
   return ["cycleDays.value ไม่ใช่ช่วง [min, max] ที่ถูกต้อง"];
 }
 
+// ไม้ยืนต้นเทียบอุณหภูมิกับค่าเฉลี่ยทั้งปี พืชล้มลุกเทียบกับเดือนที่อยู่ในแปลง (docs/SPEC.md ข้อ 4.1)
+const TEMP_BASIS_OF = { annual: "growing_season_mean", perennial: "annual_mean" };
+
+// lifeForm กับ tempBasis ไม่บังคับ แต่ถ้ามีต้องเป็นค่าที่รู้จักและเข้าคู่กัน
+function checkLifeForm(crop) {
+  if (crop.lifeForm == null && crop.tempBasis == null) return [];
+  if (!Object.hasOwn(TEMP_BASIS_OF, crop.lifeForm)) return [`lifeForm ไม่รู้จักค่า ${crop.lifeForm}`];
+  if (crop.tempBasis === TEMP_BASIS_OF[crop.lifeForm]) return [];
+  return [`tempBasis ของพืช ${crop.lifeForm} ต้องเป็น ${TEMP_BASIS_OF[crop.lifeForm]}`];
+}
+
+// ช่องเสริมของข้าวไวแสงและเกณฑ์ความหนาว มีเฉพาะบางพืช
+function checkOptionalFields(crop) {
+  const errors = [];
+  if (crop.photoperiodSensitive != null && typeof crop.photoperiodSensitive !== "boolean") {
+    errors.push("photoperiodSensitive ต้องเป็น true หรือ false");
+  }
+  const harvest = crop.harvestApprox?.value;
+  if (harvest != null && !/^(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/.test(harvest)) {
+    errors.push("harvestApprox.value ต้องเป็น เดือน-วัน เช่น 11-21");
+  }
+  const cold = crop.coldLimitC?.value;
+  if (cold != null && !isValidRange(cold)) errors.push("coldLimitC.value ไม่ใช่ช่วง [min, max] ที่ถูกต้อง");
+  return errors;
+}
+
 // ช่อง source อาจมีหลายรหัส เช่น "ก (optimal), ข (tolerable)"
 function splitSourceCodes(source) {
   return source.split(",").map((part) => part.replace(/\(.*?\)/g, "").trim());
 }
 
 function fieldsWithSource(crop) {
-  const named = [...REQUIRED_FIELDS].map((key) => [key, crop[key]]);
+  const named = [...REQUIRED_FIELDS, "harvestApprox", "coldLimitC"].map((key) => [key, crop[key]]);
   const listed = ["care", "risks"].flatMap((key) =>
     asList(crop[key]).map((item, i) => [`${key}[${i}]`, item]));
   return [...named, ...listed].filter(([, field]) => isPlainObject(field));
@@ -181,6 +207,8 @@ function validateCrop(crop, sourceCodes = null) {
     ...checkChoice("light", crop.light, LIGHTS),
     ...checkMonths(crop.plantingMonths),
     ...checkCycleDays(crop.cycleDays),
+    ...checkLifeForm(crop),
+    ...checkOptionalFields(crop),
     ...checkListField("care", crop.care, "text"),
     ...checkListField("risks", crop.risks, "risk"),
     ...checkSources(crop, sourceCodes),

@@ -69,3 +69,26 @@ test("พืชทุกชนิดสร้างตารางคะแน�
     });
   });
 });
+
+test("วันเก็บเกี่ยวของข้าวไวแสงเป็นคำไทย", () => {
+  assertEqual(harvestDateText("11-21"), "ประมาณ 21 พ.ย.");
+  assertEqual(harvestDateText("11-25"), "ประมาณ 25 พ.ย.");
+});
+
+test("ข้าวที่อายุเก็บเกี่ยวเป็น null ยังคิดคะแนนและทำตารางได้ ไม่พัง", async () => {
+  const crops = await loadCrops();
+  const rice = crops.find((crop) => crop.id === "rice-rd6");
+  const plot = { ph: 5.5, texture: "heavy", drainage: "poor", month: 10, light: null };
+  assertEqual(scoreCrop(plot, rice, null).score, 65);
+  assertEqual(factorRows(scoreCrop(plot, rice, null)).length, 7);
+});
+
+test("ฝนลำปาง 1,107 มม. ต่ำกว่าช่วงที่ยางพาราต้องการ ปัจจัยฝนได้ 0", async () => {
+  const crops = await loadCrops();
+  const rubber = crops.find((crop) => crop.id === "rubber");
+  const climate = { monthlyTempC: Array(12).fill(26.7), rainMmYear: 1107 };
+  const rain = scoreCrop(OK_PLOT, rubber, climate).factors.find((factor) => factor.key === "rainMmYear");
+  assertTrue(rain.used, "ต้องใช้ปัจจัยฝน");
+  assertEqual(rain.factorScore, 0);
+});
+

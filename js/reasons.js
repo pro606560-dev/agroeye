@@ -79,7 +79,7 @@ function buildReasons(result, crop) {
 // ตัวเลขเกณฑ์อ่านจากข้อความความเสี่ยงใน crops.json ไม่ได้กำหนดเอง
 function matchingRisks(plot, crop) {
   return crop.risks.filter(({ risk }) => {
-    const match = risk.match(/ดินเปรี้ยวจัด \(pH ต่ำกว่า ([\d.]+)\)/);
+    const match = risk.match(/ดินเปรี้ยวมาก \(pH ต่ำกว่า ([\d.]+)\)/);
     return match !== null && plot.ph != null && plot.ph < Number(match[1]);
   });
 }

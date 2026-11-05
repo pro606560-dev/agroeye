@@ -110,3 +110,9 @@ function factorRow(factor) {
 function factorRows(result) {
   return result.factors.map(factorRow);
 }
+
+// "11-21" = "ประมาณ 21 พ.ย."
+function harvestDateText(monthDay) {
+  const [month, day] = monthDay.split("-").map(Number);
+  return `ประมาณ ${day} ${MONTH_NAMES[month - 1]}`;
+}

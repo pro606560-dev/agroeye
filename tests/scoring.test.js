@@ -253,7 +253,7 @@ test("เหตุผล: ปัจจัยที่ไม่มีข้อม
   assertTrue(missingDataText(result).startsWith("ยังไม่มีข้อมูล: ประเภทดิน"));
 });
 
-test("ความเสี่ยงดินเปรี้ยวจัดแสดงเมื่อ pH ต่ำกว่าเกณฑ์ในข้อมูลเท่านั้น", async () => {
+test("ความเสี่ยงดินเปรี้ยวมากแสดงเมื่อ pH ต่ำกว่าเกณฑ์ในข้อมูลเท่านั้น", async () => {
   const crops = await loadCrops();
   const rice = crops.find((crop) => crop.id === "rice-rd6");
   assertEqual(matchingRisks({ ph: 4.8 }, rice).length, 1);

@@ -263,3 +263,31 @@ test("ตารางความครอบคลุม: นับปัจจ
   assertEqual(usableOf("rubber"), 5, "ยางพารา");
   assertEqual(usableOf("cassava"), 7, "มันสำปะหลัง");
 });
+
+// ---------- ช่องที่เพิ่มหลัง CHECKPOINT A ----------
+
+test("จับได้: lifeForm, tempBasis, harvestApprox และ coldLimitC ผิด", () => {
+  assertCaught((c) => { c.lifeForm = "tree"; c.tempBasis = "annual_mean"; }, "lifeForm");
+  assertCaught((c) => { c.lifeForm = "perennial"; c.tempBasis = "growing_season_mean"; }, "tempBasis");
+  assertCaught((c) => { c.harvestApprox = { value: "21/11", source: "AAA" }; }, "harvestApprox");
+  assertCaught((c) => { c.harvestApprox = { value: "11-21", source: null }; }, "harvestApprox");
+  assertCaught((c) => { c.coldLimitC = { value: [15, 14], source: "AAA" }; }, "coldLimitC");
+  assertCaught((c) => { c.photoperiodSensitive = "ใช่"; }, "photoperiodSensitive");
+});
+
+test("พืชจริง: ไม้ยืนต้น 4 ชนิดเทียบอุณหภูมิทั้งปี ที่เหลือเทียบเดือนที่อยู่ในแปลง", async () => {
+  const crops = await loadCrops();
+  const perennial = crops.filter((crop) => crop.lifeForm === "perennial").map((crop) => crop.id).sort();
+  assertEqual(perennial, ["longan", "mango", "rubber", "tamarind"]);
+  crops.forEach((crop) => assertEqual(checkLifeForm(crop), [], crop.id));
+  assertTrue(crops.every((crop) => crop.lifeForm), "ทุกพืชต้องมี lifeForm");
+});
+
+test("ข้าวไวแสง: อายุเก็บเกี่ยวเป็น null และมีวันเก็บเกี่ยวแทน", async () => {
+  const crops = await loadCrops();
+  const rice = crops.filter((crop) => crop.photoperiodSensitive);
+  assertEqual(rice.map((crop) => crop.id), ["rice-rd6", "rice-kdml105"]);
+  assertEqual(rice.map((crop) => crop.harvestApprox.value), ["11-21", "11-25"]);
+  rice.forEach((crop) => assertEqual(crop.cycleDays.value, null, crop.id));
+});
+

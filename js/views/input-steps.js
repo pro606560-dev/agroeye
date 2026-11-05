@@ -106,23 +106,7 @@ const STEP_VIEWS = {
     setup: setupNameStep,
   },
 
-  soil: {
-    title: "ดินในแปลงเป็นแบบไหน",
-    html: () => `
-      ${choiceHtml("texture", "heavy", "soil-heavy", TEXTURE_NAMES.heavy, "เนื้อแน่น แตกเป็นร่อง")}
-      ${choiceHtml("texture", "medium", "soil-medium", TEXTURE_NAMES.medium, "เป็นก้อนเล็ก ร่วนซุย")}
-      ${choiceHtml("texture", "light", "soil-light", TEXTURE_NAMES.light, "เม็ดละเอียด หลุดจากมือง่าย")}
-      <details class="help">
-        <summary>วิธีทดสอบดินด้วยมือ</summary>
-        <p>พรมน้ำให้ดินชื้น แล้วคลึงเป็นเส้นบนฝ่ามือ</p>
-        <ul>
-          <li>คลึงเป็นเส้นยาวไม่ขาด = ดินเหนียว</li>
-          <li>เส้นสั้นแตก = ดินร่วน</li>
-          <li>ปั้นไม่ติดและสากมือ = ดินทราย</li>
-        </ul>
-      </details>`,
-    check: (draft) => (draft.texture ? null : "ยังไม่ได้เลือกดิน แตะรูปที่ตรงกับดินในแปลง ถ้าไม่แน่ใจ ลองกด “วิธีทดสอบดินด้วยมือ”"),
-  },
+  ...SOIL_STEP_VIEWS,
 
   ph: {
     title: "ดินเปรี้ยวแค่ไหน (ค่า pH)",
@@ -134,7 +118,8 @@ const STEP_VIEWS = {
       </div>
       <input id="ph-slider" class="ph-slider" type="range" min="${PH_SLIDER_MIN}" max="${PH_SLIDER_MAX}" step="0.1"
         value="7" aria-label="เลื่อนเพื่อเลือกค่า pH">
-      <div class="ph-scale" aria-hidden="true"><span>เปรี้ยว</span><span>ด่าง</span></div>`,
+      <div class="ph-scale" aria-hidden="true"><span>เปรี้ยว</span><span>ด่าง</span></div>
+      <p class="muted field-hint">ปกติ = pH ${PH_NORMAL_MIN}–${PH_NORMAL_MAX} ตามกรมพัฒนาที่ดินและ USDA NRCS</p>`,
     check: (draft) => phError(draft.phText),
     skip: { label: "ไม่ทราบ", run: (draft) => { draft.phText = ""; } },
     setup: setupPhStep,

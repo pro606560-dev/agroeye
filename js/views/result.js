@@ -71,9 +71,12 @@ function resultPageHtml(plot, ranking, crops) {
     <p class="disclaimer">${DISCLAIMER}</p>`;
 }
 
+// เนื้อดินที่ผู้ใช้ทดสอบเอง บอกความมั่นใจต่อท้าย ไม่ตัดคะแนน
+const TEXTURE_CONFIDENCE_WORDS = { "fairly-sure": " (ค่อนข้างมั่นใจ)", unsure: " (ไม่แน่ใจ)" };
+
 function plotSummaryHtml(plot) {
   const parts = [plot.name ? escapeHtml(plot.name) : UNNAMED_PLOT];
-  if (plot.texture) parts.push(TEXTURE_NAMES[plot.texture]);
+  if (plot.texture) parts.push(TEXTURE_NAMES[plot.texture] + (TEXTURE_CONFIDENCE_WORDS[plot.textureConfidence] ?? ""));
   if (plot.ph !== null) parts.push(`${phWord(plot.ph)} (pH ${plot.ph})`);
   if (plot.month !== null) parts.push(`ปลูกเดือน ${MONTH_NAMES[plot.month - 1]}`);
   return parts.join(" · ");

@@ -29,7 +29,7 @@ function cropPageHtml(crop, sources) {
   const body = [
     whyScoreHtml(crop, citations),
     plantingHtml(crop.plantingMonths, citations),
-    cycleHtml(crop.cycleDays, citations),
+    cycleHtml(crop, citations),
     careHtml(crop.care, citations),
     risksHtml(crop.risks, citations),
     localHtml(crop.localEvidence, citations),
@@ -88,7 +88,19 @@ function plantingHtml(planting, citations) {
   return sectionHtml("เดือนที่ปลูกได้", `${months}${note ? `<p>${note}</p>` : ""}${cite}`);
 }
 
-function cycleHtml(cycle, citations) {
+// ข้าวไวแสงเก็บเกี่ยวตามวันที่ ไม่ใช่ตามจำนวนวัน
+function harvestDateHtml(crop, citations) {
+  const harvest = crop.harvestApprox;
+  const note = sourcedNote(crop.cycleDays);
+  return sectionHtml("อายุเก็บเกี่ยว", `
+    <p>เก็บเกี่ยว${harvestDateText(harvest.value)}</p>
+    ${note ? `<p>${note}</p>` : ""}
+    ${citeHtml(citations.cite(harvest.source))}`);
+}
+
+function cycleHtml(crop, citations) {
+  const cycle = crop.cycleDays;
+  if (!cycle.value && crop.harvestApprox?.value) return harvestDateHtml(crop, citations);
   if (!cycle.value) return sectionHtml("อายุเก็บเกี่ยว", noDataHtml());
   const note = sourcedNote(cycle);
   return sectionHtml("อายุเก็บเกี่ยว", `

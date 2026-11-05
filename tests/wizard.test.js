@@ -2,7 +2,7 @@
 
 const POINT_A = { id: "point-A", name: "แปลง A", texture: "heavy", ph: 4, drainage: null };
 
-test("แปลงใหม่ต้องถามครบ 6 ขั้น", () => {
+test("แปลงใหม่ต้องถามครบ 9 ขั้น รวมทดสอบดิน 3 วิธี", () => {
   assertEqual(activeSteps(createDraft(5)), WIZARD_STEPS);
 });
 
@@ -11,7 +11,7 @@ test("เลือกแปลง A แล้วเติมดินและ p
   applySurveyPoint(draft, POINT_A);
   assertEqual(draft.texture, "heavy");
   assertEqual(draft.phText, "4");
-  assertEqual(activeSteps(draft), ["name", "water", "month", "extra"]);
+  assertEqual(activeSteps(draft), ["name", "water", "month", "extra"], "ข้ามขั้นทดสอบดินทั้ง 3 วิธีด้วย");
 });
 
 test("ค่าที่จุดสำรวจเป็น null ยังต้องถาม ไม่เดาเติม", () => {
@@ -64,11 +64,15 @@ test("ตรวจค่าเพิ่มเติม: ว่างผ่าน
   assertEqual(extraError(draft), null);
 });
 
-test("คำข้างตัวเลข pH แบ่ง 3 ช่วงตรงขอบ", () => {
+test("คำข้างตัวเลข pH แบ่ง 4 ช่วงตรงขอบ", () => {
+  assertEqual(phWord(4), "ดินเปรี้ยวมาก");
+  assertEqual(phWord(5.5), "ดินเปรี้ยวมาก");
+  assertEqual(phWord(5.6), "ดินเปรี้ยว");
   assertEqual(phWord(6.5), "ดินเปรี้ยว");
   assertEqual(phWord(6.6), "ปกติ");
   assertEqual(phWord(7.3), "ปกติ");
   assertEqual(phWord(7.4), "ดินเป็นด่าง");
+  assertTrue(!["4", "5.5", "6", "7", "8"].some((ph) => phWord(Number(ph)).includes("เปรี้ยวจัด")), "ห้ามใช้คำว่าดินเปรี้ยวจัด");
 });
 
 test("ไม่ทราบทุกข้อได้ค่า null เหลือแค่ดิน 1 ปัจจัย จึงเข้ากลุ่มข้อมูลไม่พอ ไม่พัง", async () => {
