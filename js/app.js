@@ -55,6 +55,7 @@ function startApp() {
   window.addEventListener("hashchange", handleHashChange);
   document.getElementById("back-button").addEventListener("click", handleBackClick);
   handleHashChange();
+  registerServiceWorker(); // ใช้ออฟไลน์ได้ (js/pwa.js)
 }
 
 startApp();

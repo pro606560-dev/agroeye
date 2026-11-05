@@ -295,3 +295,28 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* แถบ "มีเวอร์ชันใหม่" (task 13): ติดล่างจอ เป็นปุ่มทั้งแถบ แตะง่าย */
+.update-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  min-height: var(--button-height);
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-top: var(--border-thick) solid var(--color-accent);
+  background: var(--color-primary);
+  color: #FFFFFF;
+  font: inherit;
+  cursor: pointer;
+}
+.update-bar span { font-size: 0.9rem; }
+.update-bar:disabled { cursor: progress; }
+body:has(.update-bar) { padding-bottom: 6rem; } /* ไม่ให้แถบบังปุ่มล่างสุดของหน้า */

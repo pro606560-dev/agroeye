@@ -1,0 +1,16 @@
+{
+  "name": "AgroEye แนะนำพืชสำหรับแปลงของคุณ",
+  "short_name": "AgroEye",
+  "description": "บอกสภาพดินของแปลง แล้วแอปจะแนะนำพืชที่เหมาะ 3 อย่าง",
+  "lang": "th",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F3F6EC",
+  "theme_color": "#1F3864",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
