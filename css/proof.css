@@ -10,7 +10,7 @@
 }
 
 .proof-subtitle { margin: var(--space-4) 0 var(--space-2); font-size: var(--text-body); }
-.proof-note { color: var(--color-ink-soft); font-size: 0.9rem; }
+.proof-note { color: var(--color-ink-soft); font-size: 1rem; }
 .proof-summary { margin-bottom: var(--space-3); }
 
 .proof-toggle {
@@ -31,7 +31,7 @@
   background: var(--color-surface);
 }
 
-.proof-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.proof-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
 .proof-table caption { padding: var(--space-2) var(--space-3); text-align: left; font-weight: 700; }
 .proof-table th,
 .proof-table td {

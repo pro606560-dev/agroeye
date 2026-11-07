@@ -16,7 +16,7 @@ function hypothesisTwoHtml() {
       <p>1 รอบ = จัดอันดับพืช ${crops.length} ชนิด ให้ครบ ${areas.length} พื้นที่ ในเครื่องนี้ (ไม่ใช้เน็ต)</p>
       <button class="btn btn-primary" type="button" data-run-timing>จับเวลา ${PROOF_TIMING_ROUNDS} รอบ</button>
       <div id="timing-result"></div>
-      <p class="proof-note">ยังไม่มีส่วน AI ในแอป จึงยังไม่มีตารางเวลาของ AI</p>
+      <p class="proof-note">เวลานี้ไม่รวมคำอธิบายจาก AI เพราะ AI ไม่ได้ใช้เลือกพืช และต้องใช้อินเทอร์เน็ต (ยังไม่มีตารางจับเวลาของ AI)</p>
     </section>`;
 }
 

@@ -21,7 +21,11 @@
   border: 2px solid var(--color-warn);
   border-radius: 6px;
   color: var(--color-warn);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
 }
 .ai-fail { color: var(--color-ink); }
+
+/* task 17: ให้ตัวเลือกขนาดตัวอักษรใหญ่ตามขนาดที่จะได้ (21/18 และ 24/18) ผู้ใช้เห็นก่อนเลือก */
+#text-size-settings .choice:has(input[value="large"]) { font-size: 1.17em; }
+#text-size-settings .choice:has(input[value="xlarge"]) { font-size: 1.33em; }

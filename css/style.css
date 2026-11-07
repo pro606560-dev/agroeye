@@ -317,7 +317,7 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
   font: inherit;
   cursor: pointer;
 }
-.update-bar span { font-size: 0.9rem; }
+.update-bar span { font-size: 1rem; }
 .update-bar:disabled { cursor: progress; }
 body:has(.update-bar) { padding-bottom: 6rem; } /* ไม่ให้แถบบังปุ่มล่างสุดของหน้า */
 
