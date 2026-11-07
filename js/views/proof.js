@@ -194,6 +194,7 @@ function chartButtonHtml(group) {
 const PROOF_TABLES = {
   area: { rows: () => areaTableRows(), file: "agroeye-table1-areas.png" },
   timing: { rows: () => timingTableRows(), file: "agroeye-table2-timing.png" },
+  aiTiming: { rows: () => aiTimingTableRows(), file: "agroeye-table3-ai-timing.png" },
 };
 
 function setStatus(root, tableId, text) {
@@ -216,6 +217,7 @@ function wireProofButtons(root) {
     }
     if (saveChart) saveChartGroup(root, saveChart);
     if (button.dataset.runTiming !== undefined) showTiming(root);
+    if (button.dataset.runAiTiming !== undefined) showAiTiming(root);
   });
 }
 

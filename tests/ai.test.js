@@ -136,3 +136,37 @@ test("ตั้งค่า: ปิดเสียงแล้วปุ่มฟ
   saveSoundOn(false);
   assertEqual([soundOn(), showSpeakButtons()], [false, false]);
 }));
+
+// ---------- จับเวลา AI ในหน้าพิสูจน์ (งานเสริมค้างจาก task 14) ----------
+
+test("จับเวลา AI: ถามใหม่ทุกรอบ ไม่ใช้และไม่เพิ่มคำตอบที่เก็บไว้", () => withCleanAiStorage(async () => {
+  const { crop, result } = await firstCropAndResult();
+  saveAiKey("test-key-not-real");
+  const fake = fakeFetch(200);
+  await explain(AI_TEST_PLOT, result, crop, fake.fn); // มีคำตอบเก็บไว้แล้ว 1 ชุด
+  const cacheBefore = JSON.stringify(readAiCache());
+  const timed = await timeAsyncRounds(() => askAiFresh(AI_TEST_PLOT, result, crop, fake.fn), PROOF_AI_ROUNDS);
+  assertEqual(fake.calls.length, 1 + PROOF_AI_ROUNDS, "ต้องเรียกเน็ตทุกรอบ");
+  assertEqual([timed.times.length, timed.failReason], [PROOF_AI_ROUNDS, null]);
+  assertTrue(timed.times.every((t) => t >= 0), "เวลาต้องไม่ติดลบ");
+  assertEqual(JSON.stringify(readAiCache()), cacheBefore, "ห้ามแก้คำตอบที่เก็บไว้");
+}));
+
+test("จับเวลา AI: ไม่มีรหัส → ไม่เรียกเน็ต และหยุดตั้งแต่รอบแรก", () => withCleanAiStorage(async () => {
+  const { crop, result } = await firstCropAndResult();
+  const fake = fakeFetch(200);
+  const timed = await timeAsyncRounds(() => askAiFresh(AI_TEST_PLOT, result, crop, fake.fn), PROOF_AI_ROUNDS);
+  assertEqual([timed.times.length, timed.failReason, fake.calls.length], [0, "noKey", 0]);
+}));
+
+test("จับเวลา AI: รอบที่ 3 ไม่สำเร็จ → หยุดทันที เก็บเวลา 2 รอบแรก และมีข้อความบอกผู้ใช้", async () => {
+  let round = 0;
+  const task = async () => { round++; return round === 3 ? { ok: false, reason: "quota" } : { ok: true }; };
+  const seen = [];
+  const timed = await timeAsyncRounds(task, PROOF_AI_ROUNDS, (n) => seen.push(n));
+  assertEqual([timed.times.length, timed.failReason, round], [2, "quota", 3]);
+  assertEqual(seen, [1, 2, 3]);
+  for (const reason of ["noKey", "offline", "timeout", "badKey", "quota", "error"]) {
+    assertTrue(Boolean(AI_TIMING_FAIL_TEXTS[reason]), `ต้องมีข้อความของ ${reason}`);
+  }
+});

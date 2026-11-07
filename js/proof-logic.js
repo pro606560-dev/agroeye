@@ -7,6 +7,9 @@ const PROOF_MONTH = 5;
 // จับเวลากี่รอบ (สมมติฐานข้อ 2)
 const PROOF_TIMING_ROUNDS = 10;
 
+// จับเวลา AI กี่รอบ (น้อยกว่าการคำนวณ เพราะทุกรอบใช้เน็ตและโควตาฟรีของ Gemini)
+const PROOF_AI_ROUNDS = 5;
+
 // จุดสำรวจต้องมีค่าที่วัดแล้วอย่างน้อยกี่ปัจจัย จึงนำมาแสดง
 const PROOF_MIN_SURVEY_FACTORS = 2;
 
@@ -82,6 +85,21 @@ function timeRounds(task, rounds = PROOF_TIMING_ROUNDS) {
     times.push(performance.now() - start);
   }
   return times;
+}
+
+// จับเวลางานที่ต้องรอคำตอบ (เช่น ถาม AI) task ต้องคืน { ok, reason }
+// รอบไหนไม่สำเร็จให้หยุดทันที (ไม่ถามต่อให้เปลืองโควตา) คืนเวลาของรอบที่สำเร็จ + เหตุผลที่หยุด
+async function timeAsyncRounds(task, rounds, onRound = () => {}) {
+  const times = [];
+  for (let i = 0; i < rounds; i++) {
+    onRound(i + 1);
+    const start = performance.now();
+    const result = await task();
+    const time = performance.now() - start;
+    if (!result.ok) return { times, failReason: result.reason };
+    times.push(time);
+  }
+  return { times, failReason: null };
 }
 
 // ค่าเฉลี่ย ต่ำสุด สูงสุด ของเวลาทุกรอบ

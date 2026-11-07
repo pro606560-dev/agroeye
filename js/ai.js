@@ -14,6 +14,16 @@ const AI_FAIL_TEXTS = {
   error: "ขอคำอธิบายจาก AI ไม่สำเร็จ อ่านวิธีดูแลด้านบนแทนได้เลย",
 };
 
+// ใช้ในหน้าพิสูจน์ตอนจับเวลา AI ไม่สำเร็จ บอกว่าเกิดอะไรขึ้น และทำอะไรต่อได้
+const AI_TIMING_FAIL_TEXTS = {
+  noKey: "ยังไม่มีรหัส AI ใส่รหัสในหน้าตั้งค่าก่อน",
+  offline: "ตอนนี้ไม่มีอินเทอร์เน็ต ต่อเน็ตแล้วกดใหม่",
+  timeout: "AI ตอบช้าเกินไป ลองกดใหม่ภายหลัง",
+  badKey: "รหัส AI ใช้ไม่ได้ ตรวจรหัสในหน้าตั้งค่า",
+  quota: "ใช้ AI ครบจำนวนที่ใช้ฟรีแล้ว รอสักครู่หรือลองพรุ่งนี้",
+  error: "ถาม AI ไม่สำเร็จ ลองกดใหม่ภายหลัง",
+};
+
 // คำสั่งที่ส่งให้ Gemini (ข้อ 4 ของ task 16)
 const AI_RULES = [
   "คุณช่วยอธิบายผลแนะนำพืชให้เกษตรกรสูงอายุในอำเภอแม่ทะ จังหวัดลำปาง",
@@ -152,4 +162,13 @@ async function explain(plot, cropResult, crop, fetchFn = window.fetch.bind(windo
   const answer = await callGemini(key, payload, fetchFn);
   if (answer.ok) saveAnswer(cacheKey, answer.text);
   return { ...answer, fromCache: false };
+}
+
+// ใช้จับเวลาในหน้าพิสูจน์: ถาม AI จริงทุกครั้ง ไม่อ่านและไม่บันทึกคำตอบที่เก็บไว้
+// (ถ้าอ่านจากที่เก็บไว้ เวลาจะใกล้ 0 ซึ่งไม่ใช่เวลาที่ AI ใช้จริง)
+async function askAiFresh(plot, cropResult, crop, fetchFn = window.fetch.bind(window)) {
+  const key = aiKey();
+  if (!key) return { ok: false, reason: "noKey" };
+  if (navigator.onLine === false) return { ok: false, reason: "offline" };
+  return callGemini(key, aiPayload(plot, cropResult, crop), fetchFn);
 }
