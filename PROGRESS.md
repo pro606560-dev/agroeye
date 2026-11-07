@@ -498,3 +498,7 @@ Claude Code อัปเดตไฟล์นี้ทุกครั้งท�
 - Edge โปรไฟล์ใหม่ เปิดเว็บจริง: แคช `agroeye-v0.13` ครบ 49 ไฟล์ / tests.html ผ่าน 153/153 และเฉลย 11/11 / ตั้งเป็นออฟไลน์แล้ว หน้าแรก กรอกจนเห็นผล บันทึก แปลงของฉัน และปฏิทิน (ไฮไลต์ พ.ย.) ใช้ได้ทั้งหมด
 - manifest ไม่มี error (`Page.getAppManifest` errors = []) แต่คำสั่งตรวจ "ติดตั้งได้ไหม" ของ Edge ไม่ตอบค่า จึงยังไม่ยืนยันการติดตั้งจริง ต้องดูบน OPPO ข้อ 1 ใน checkpoints/B.md
 - ถัดไป: รอผู้ใช้ตอบ CHECKPOINT B → ถ้าผ่าน รัน `git tag checkpoint-B` แล้ว push แท็ก → task 14
+
+### CHECKPOINT B – ผู้ใช้ตอบว่า "ผ่าน" (7 พ.ย. 2569)
+- ผู้ใช้ทดสอบ `checkpoints/B.md` บน OPPO แล้วตอบว่าผ่าน → ติดแท็ก `checkpoint-B` และ push แล้ว
+- **task ถัดไป: Task 14 – หน้าพิสูจน์สมมติฐาน + กราฟ [ใช้ reviewer]** (อ่าน `tasks/14-hypothesis-proof.md`) อย่าลืมเพิ่มไฟล์ใหม่ใน `APP_FILES` ของ `sw.js` และเพิ่ม `CACHE_VERSION` กับ `APP_VERSION` ให้ตรงกัน
