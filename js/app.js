@@ -10,6 +10,8 @@ const VIEWS = {
   crop: renderCrop,
   plots: renderPlots,
   calendar: renderCalendar,
+  proof: renderProof,
+  settings: renderSettings,
 };
 
 // นับจำนวนหน้าที่เปิดในแอปรอบนี้ เพื่อรู้ว่ากดย้อนกลับแล้วยังอยู่ในแอปไหม

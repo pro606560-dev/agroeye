@@ -1,0 +1,71 @@
+/* หน้าพิสูจน์สมมติฐาน: ตารางกว้าง จึงขยายหน้าให้กว้างกว่าหน้าอื่นบนจอคอม
+   บนมือถือ ตารางเลื่อนซ้ายขวาได้ในกรอบของตัวเอง หน้าไม่เลื่อนทั้งหน้า */
+
+.page:has(> .proof-page) { max-width: 60rem; }
+
+.proof-section {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: var(--border-thick) solid var(--color-primary);
+}
+
+.proof-subtitle { margin: var(--space-4) 0 var(--space-2); font-size: var(--text-body); }
+.proof-note { color: var(--color-ink-soft); font-size: 0.9rem; }
+.proof-summary { margin-bottom: var(--space-3); }
+
+.proof-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 56px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.proof-toggle input { width: 28px; height: 28px; flex: none; accent-color: var(--color-primary); }
+
+.table-wrap {
+  overflow-x: auto;
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.proof-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.proof-table caption { padding: var(--space-2) var(--space-3); text-align: left; font-weight: 700; }
+.proof-table th,
+.proof-table td {
+  padding: var(--space-1) var(--space-2);
+  border-top: 1px solid #D5D9CF;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.proof-table th { background: var(--color-primary-tint); }
+/* คอลัมน์อันดับ 1 เป็นคำตอบของสมมติฐาน จึงเน้นให้มองเห็นก่อน */
+.proof-table td:nth-child(6) { font-weight: 700; }
+
+.proof-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-bottom: var(--space-3); }
+.proof-actions .btn { width: auto; margin: 0; padding: 0 var(--space-3); }
+.proof-status { flex-basis: 100%; margin: 0; color: var(--color-ok); font-weight: 700; }
+.proof-status:empty { display: none; }
+
+.proof-chart {
+  position: relative;
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: #FFFFFF;
+  padding: var(--space-1);
+}
+
+.proof-limits { padding-left: 1.2em; }
+.proof-limits li { margin-bottom: var(--space-1); }
+
+/* ตอนสั่งพิมพ์: ไม่พิมพ์ปุ่ม และไม่ตัดตารางกับกราฟกลางหน้ากระดาษ */
+@media print {
+  .proof-actions, .proof-toggle, .btn, header { display: none; }
+  .table-wrap, .proof-chart { break-inside: avoid; overflow: visible; }
+}
+
+#timing-result:not(:empty) { margin-top: var(--space-3); }
