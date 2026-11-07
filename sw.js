@@ -2,7 +2,7 @@
 // ทุกครั้งที่แก้ไฟล์ของแอป ต้องเปลี่ยน CACHE_VERSION ให้ตรงกับ APP_VERSION ใน js/config.js
 // (tests.html ตรวจให้ว่าตรงกัน) เครื่องผู้ใช้จึงจะรู้ว่ามีเวอร์ชันใหม่
 
-const CACHE_VERSION = "0.15";
+const CACHE_VERSION = "0.16";
 const CACHE_NAME = `agroeye-v${CACHE_VERSION}`;
 
 // ไฟล์ทั้งหมดที่แอปใช้ (tests.html ตรวจว่าทุกไฟล์ที่ index.html เรียกอยู่ในรายการนี้)
@@ -18,6 +18,7 @@ const APP_FILES = [
   "css/plots.css",
   "css/calendar.css",
   "css/proof.css",
+  "css/settings.css",
   "js/config.js",
   "js/validate.js",
   "js/data.js",
@@ -25,6 +26,7 @@ const APP_FILES = [
   "js/weather.js",
   "js/reasons.js",
   "js/storage.js",
+  "js/prefs.js",
   "js/plots-store.js",
   "js/router.js",
   "js/wizard.js",
@@ -35,6 +37,7 @@ const APP_FILES = [
   "js/pwa.js",
   "js/speech-text.js",
   "js/speech.js",
+  "js/ai.js",
   "js/views/placeholder.js",
   "js/views/home.js",
   "js/views/soil-steps.js",
@@ -42,6 +45,7 @@ const APP_FILES = [
   "js/views/input.js",
   "js/views/result.js",
   "js/views/crop.js",
+  "js/views/ai-box.js",
   "js/views/plots.js",
   "js/views/calendar.js",
   "js/proof-logic.js",
@@ -49,6 +53,7 @@ const APP_FILES = [
   "js/views/proof.js",
   "js/views/proof-timing.js",
   "js/views/settings.js",
+  "js/views/settings-more.js",
   "lib/chartjs/chart.umd.min.js",
   "js/app.js",
   "data/crops.json",

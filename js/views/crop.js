@@ -24,6 +24,7 @@ async function renderCrop(container, cropId) {
     setupSpeakButton(container.querySelector(".speak-btn"), () => cropSpeechSentences(crop));
   }
   container.querySelector("h2").focus({ preventScroll: true });
+  if (crop) showAiExplanation(container, crop); // คำอธิบายจาก AI (js/views/ai-box.js) ไม่ต้องรอ
 }
 
 function cropPageHtml(crop, sources) {

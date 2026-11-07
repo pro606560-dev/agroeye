@@ -4,7 +4,7 @@
 const EXPECTED_CROP_COUNT = 12;
 
 // เวอร์ชันของแอป เก็บไว้กับผลที่บันทึก เพราะสูตรหรือข้อมูลรุ่นใหม่อาจให้คะแนนต่างจากเดิม
-const APP_VERSION = "0.15";
+const APP_VERSION = "0.16";
 
 // น้ำหนักของแต่ละปัจจัย ยิ่งมากยิ่งมีผลต่อคะแนนรวมมาก (docs/SPEC.md หัวข้อ 4.2)
 const SCORE_WEIGHTS = {
@@ -67,3 +67,19 @@ const SOIL_TEST_AGREE_MIN = 2;
 // ---------- อ่านออกเสียง (task 15) ----------
 // ความเร็วเสียงอ่าน 1 = ความเร็วปกติของเครื่อง ผู้ใช้เลือกในหน้าตั้งค่า
 const SPEECH_RATES = { normal: 1, slow: 0.75 };
+
+// ---------- หน้าตั้งค่า (task 16) ----------
+// ขนาดตัวอักษร: ชื่อคลาสที่ใส่ให้ <html> (ขนาดจริงกำหนดใน css/style.css)
+const TEXT_SIZE_CLASSES = { normal: "", large: "text-large", xlarge: "text-xlarge" };
+
+// ---------- AI อธิบาย (Gemini) ----------
+// ชื่อรุ่นตรวจจากเอกสารของ Google (aistudio.google.com/docs/models และ /docs/pricing) เมื่อ 7 พ.ย. 2569
+// เป็นรุ่น Stable ที่ใช้ฟรีได้ ถ้า Google ปิดรุ่นนี้ ให้เปลี่ยนชื่อที่นี่ที่เดียว
+const GEMINI_MODEL = "gemini-3.5-flash-lite";
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+// รอคำตอบไม่เกินเท่านี้ (มิลลิวินาที) ถ้าช้ากว่านี้ให้ใช้ข้อความจากฐานข้อมูลแทน
+const AI_TIMEOUT_MS = 15000;
+// จำนวนบรรทัดสูงสุดของคำอธิบายที่แสดง
+const AI_MAX_LINES = 5;
+// เก็บคำตอบเก่าไว้ไม่เกินเท่านี้ชุด (ประหยัดโควตา และไม่ให้เต็มพื้นที่เครื่อง)
+const AI_CACHE_LIMIT = 30;

@@ -21,6 +21,11 @@ function hasThaiSpeech() {
   return thaiVoice !== null;
 }
 
+// แสดงปุ่มฟังเมื่อมีเสียงไทย และผู้ใช้ไม่ได้ปิดเสียงในหน้าตั้งค่า (task 16, js/prefs.js)
+function showSpeakButtons() {
+  return hasThaiSpeech() && soundOn();
+}
+
 // ความเร็วที่ผู้ใช้เลือกในหน้าตั้งค่า (normal / slow) ถ้าค่าแปลก ใช้ปกติ
 function speechRateChoice() {
   const choice = readStorage(SPEECH_RATE_KEY, "normal");
@@ -34,7 +39,7 @@ function saveSpeechRateChoice(choice) {
 // เสียงบางเครื่องโหลดช้า จึงตรวจซ้ำทุกครั้งที่รายการเสียงเปลี่ยน แล้วแสดง/ซ่อนปุ่มให้ตรง
 function refreshVoices() {
   thaiVoice = findThaiVoice(window.speechSynthesis.getVoices());
-  document.querySelectorAll(".speak-btn").forEach((button) => { button.hidden = !hasThaiSpeech(); });
+  document.querySelectorAll(".speak-btn").forEach((button) => { button.hidden = !showSpeakButtons(); });
   document.dispatchEvent(new CustomEvent("agroeye:voices"));
 }
 
@@ -77,11 +82,11 @@ function speakButtonHtml(label) {
 // ผูกปุ่มกับข้อความ getSentences() เรียกตอนกด เพื่อให้ได้ข้อความล่าสุด
 function setupSpeakButton(button, getSentences) {
   if (!button) return;
-  button.hidden = !hasThaiSpeech();
+  button.hidden = !showSpeakButtons();
   button.addEventListener("click", () => {
     const wasThisButton = activeSpeakButton === button;
     stopSpeaking();
-    if (wasThisButton || !hasThaiSpeech()) return;
+    if (wasThisButton || !showSpeakButtons()) return;
     activeSpeakButton = button;
     button.textContent = SPEAK_STOP_LABEL;
     button.setAttribute("aria-pressed", "true");

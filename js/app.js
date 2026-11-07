@@ -55,6 +55,7 @@ function handleBackClick() {
 }
 
 function startApp() {
+  applyTextSize(); // ขนาดตัวอักษรที่ผู้ใช้เลือกไว้ (js/prefs.js)
   window.addEventListener("hashchange", handleHashChange);
   document.getElementById("back-button").addEventListener("click", handleBackClick);
   handleHashChange();

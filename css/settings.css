@@ -1,0 +1,27 @@
+/* หน้าตั้งค่า และกล่องคำอธิบายจาก AI ในหน้าพืช (task 16) */
+
+.settings-status { font-weight: 700; }
+.settings-heading { margin-top: var(--space-5); font-size: 1.15rem; }
+.settings-heading:first-of-type { margin-top: var(--space-3); }
+#ai-settings .btn { margin-bottom: var(--space-2); }
+#ai-settings .btn + .btn { margin-top: 0; }
+
+.about-sources summary {
+  min-height: 48px;
+  padding: var(--space-1) 0;
+  color: var(--color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ป้ายเตือนว่าคำอธิบายมาจาก AI */
+.ai-badge {
+  display: inline-block;
+  padding: 2px var(--space-1);
+  border: 2px solid var(--color-warn);
+  border-radius: 6px;
+  color: var(--color-warn);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.ai-fail { color: var(--color-ink); }

@@ -66,6 +66,11 @@ function deleteSavedPlot(id) {
   return writeStorage(PLOTS_KEY, list.filter((record) => record.id !== id));
 }
 
+// ล้างประวัติทั้งหมด (หน้าตั้งค่า task 16) คืน true ถ้าลบสำเร็จ
+function clearSavedPlots() {
+  return removeStorage(PLOTS_KEY);
+}
+
 // วันที่แบบไทย พ.ศ. เช่น "5 พ.ย. 2569"
 function thaiDate(isoText) {
   const date = new Date(isoText);
