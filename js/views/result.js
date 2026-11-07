@@ -37,6 +37,9 @@ async function renderResult(container) {
   const ranking = rankCrops(currentPlot, crops, currentClimate());
   container.innerHTML = resultPageHtml(currentPlot, ranking, crops);
   setupSaveButton(container, ranking, crops);
+  const { recommended } = splitRecommendations(ranking);
+  setupSpeakButton(container.querySelector(".speak-btn"),
+    () => resultSpeechSentences(recommended, crops, DISCLAIMER));
   container.querySelector("h2").focus({ preventScroll: true });
 }
 
@@ -107,6 +110,7 @@ function resultPageHtml(plot, ranking, crops) {
   return `
     <h2 tabindex="-1">${recommended.length > 0 ? "พืชที่แนะนำสำหรับแปลงนี้" : "ยังแนะนำพืชให้แปลงนี้ไม่ได้"}</h2>
     <p class="plot-summary">${plotSummaryHtml(plot)}</p>
+    ${recommended.length > 0 ? speakButtonHtml("ฟังคำแนะนำ") : ""}
     ${recommended.length > 0 ? recommendedHtml(recommended, plot, crops) : noResultHtml(ranking)}
     ${hintsHtml(plot)}
     ${othersHtml(others, crops)}

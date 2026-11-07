@@ -320,3 +320,9 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
 .update-bar span { font-size: 0.9rem; }
 .update-bar:disabled { cursor: progress; }
 body:has(.update-bar) { padding-bottom: 6rem; } /* ไม่ให้แถบบังปุ่มล่างสุดของหน้า */
+
+/* อ่านออกเสียง (task 15) */
+.speak-btn { margin-bottom: var(--space-3); }
+.speak-btn[hidden] { display: none; } /* .btn ตั้ง display: flex ไว้ ซึ่งชนะ hidden จึงต้องเขียนซ้ำ */
+.speech-rate { margin: 0 0 var(--space-3); padding: 0; border: 0; }
+.speech-rate legend { margin-bottom: var(--space-1); padding: 0; font-weight: 700; }

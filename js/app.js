@@ -40,6 +40,7 @@ function handleHashChange() {
     return;
   }
   visitedPageCount++;
+  stopSpeaking(); // เปลี่ยนหน้าแล้วหยุดอ่านออกเสียง (js/speech.js)
   showRoute(route);
 }
 
@@ -58,6 +59,7 @@ function startApp() {
   document.getElementById("back-button").addEventListener("click", handleBackClick);
   handleHashChange();
   registerServiceWorker(); // ใช้ออฟไลน์ได้ (js/pwa.js)
+  startSpeech(); // หาเสียงภาษาไทย ถ้าไม่มีจะซ่อนปุ่มฟัง (js/speech.js)
 }
 
 startApp();

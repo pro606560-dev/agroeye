@@ -20,6 +20,8 @@ async function renderCrop(container, cropId) {
       <a class="btn btn-primary" href="#/home">กลับหน้าแรก</a>`;
   } else {
     container.innerHTML = cropPageHtml(crop, sources);
+    container.querySelector("#speech-slot").innerHTML = speakButtonHtml("ฟังวิธีดูแล");
+    setupSpeakButton(container.querySelector(".speak-btn"), () => cropSpeechSentences(crop));
   }
   container.querySelector("h2").focus({ preventScroll: true });
 }
