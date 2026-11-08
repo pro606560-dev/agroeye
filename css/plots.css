@@ -43,3 +43,19 @@
 }
 .dialog::backdrop { background: rgba(0, 0, 0, 0.55); }
 .dialog h2 { margin-top: 0; }
+
+/* บันทึกรอบปลูก (task 19) */
+.plantings { margin-top: var(--space-3); }
+.planting-list { list-style: none; margin: 0 0 var(--space-3); padding: 0; }
+.planting-row {
+  padding: var(--space-2) 0 var(--space-2) var(--space-2);
+  border-left: 6px solid var(--color-ok);
+}
+.planting-row + .planting-row { margin-top: var(--space-2); }
+.planting-row > span { display: block; }
+.planting-name { display: block; font-size: var(--text-h2); }
+.planting-delete { margin-top: var(--space-1); }
+.plantings textarea.input { min-height: 96px; }
+.plantings select.input { appearance: auto; }
+#pl-other-field[hidden] { display: none; }
+#planting-form { padding: 0 var(--space-3) var(--space-3); border-top: 1px solid var(--color-line); padding-top: var(--space-3); }

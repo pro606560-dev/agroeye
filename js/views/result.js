@@ -22,7 +22,8 @@ function currentClimate() {
 async function renderResult(container) {
   if (!currentPlot) {
     showResultMessage(container, "ยังไม่มีข้อมูลแปลง",
-      "ผลการตรวจจะหายเมื่อปิดหรือรีเฟรชหน้านี้ กรุณากรอกข้อมูลแปลงอีกครั้ง");
+      "ผลการตรวจจะหายเมื่อปิดแอปหรือโหลดหน้านี้ใหม่ กด \"ตรวจแปลงใหม่\" เพื่อกรอกอีกครั้ง หรือดูแปลงที่บันทึกไว้ใน \"แปลงของฉัน\"",
+      true);
     return;
   }
   container.innerHTML = `<h2 tabindex="-1">กำลังคิดผล</h2>`;
@@ -31,7 +32,7 @@ async function renderResult(container) {
   if (window.location.hash !== "#/result") return; // ผู้ใช้ออกจากหน้านี้ระหว่างรอโหลด
   if (crops.length === 0) {
     showResultMessage(container, "โหลดข้อมูลพืชไม่ได้",
-      "แอปจึงยังแนะนำพืชไม่ได้ ลองรีเฟรชหน้านี้ แล้วกรอกข้อมูลอีกครั้ง");
+      "แอปจึงยังแนะนำพืชไม่ได้ ลองปิดแอปแล้วเปิดใหม่ แล้วกรอกข้อมูลอีกครั้ง");
     return;
   }
   const ranking = rankCrops(currentPlot, crops, currentClimate());
@@ -40,14 +41,16 @@ async function renderResult(container) {
   const { recommended } = splitRecommendations(ranking);
   setupSpeakButton(container.querySelector(".speak-btn"),
     () => resultSpeechSentences(recommended, crops, DISCLAIMER));
+  setupImageButton(container, recommended, crops);
   container.querySelector("h2").focus({ preventScroll: true });
 }
 
-function showResultMessage(container, title, message) {
+function showResultMessage(container, title, message, showPlotsLink = false) {
   container.innerHTML = `
     <h2 tabindex="-1">${title}</h2>
     <p>${message}</p>
-    <a class="btn btn-primary" href="#/input">ตรวจแปลงใหม่</a>`;
+    <a class="btn btn-primary" href="#/input">ตรวจแปลงใหม่</a>
+    ${showPlotsLink ? `<a class="btn btn-secondary" href="#/plots">แปลงของฉัน</a>` : ""}`;
   container.querySelector("h2").focus({ preventScroll: true });
 }
 
@@ -86,6 +89,19 @@ function setupSaveButton(container, ranking, crops) {
   });
 }
 
+// ---------- บันทึกผลเป็นรูป (task 19) ตัววาดรูปอยู่ใน js/result-export.js ----------
+
+function setupImageButton(container, recommended, crops) {
+  const button = container.querySelector("#save-image");
+  if (!button) return;
+  button.addEventListener("click", async () => {
+    const ok = await saveResultImage(currentPlot, recommended, crops);
+    container.querySelector("#image-notice").innerHTML = ok
+      ? `<div class="alert alert-ok">บันทึกรูปแล้ว ดูได้ในแอปรูปภาพ หรือในหัวข้อ \"ดาวน์โหลด\" ของแอปไฟล์</div>`
+      : `<div class="alert alert-warn">บันทึกรูปไม่ได้ ลองกดอีกครั้ง หรือใช้วิธีจับภาพหน้าจอแทน</div>`;
+  });
+}
+
 function showSaved(container, button) {
   button.disabled = true;
   button.textContent = "บันทึกแล้ว";
@@ -119,6 +135,8 @@ function resultPageHtml(plot, ranking, crops) {
     <div class="result-actions">
       <button id="save-plot" class="btn btn-primary" type="button">บันทึกแปลงนี้</button>
       <div id="save-notice" role="status"></div>
+      ${recommended.length > 0 ? `<button id="save-image" class="btn btn-secondary" type="button">บันทึกผลเป็นรูป</button>
+      <div id="image-notice" role="status"></div>` : ""}
       <a class="btn btn-secondary" href="#/input">ตรวจใหม่</a>
     </div>
     <p class="disclaimer">${DISCLAIMER}</p>

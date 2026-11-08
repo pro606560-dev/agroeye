@@ -70,6 +70,10 @@ function renderOnePlot(container, plotId, crops) {
   container.querySelector("#recheck").addEventListener("click", () => startFromSaved(record, "recheck"));
   container.querySelector("#edit").addEventListener("click", () => startFromSaved(record, "edit"));
   setupDeleteDialog(container, record);
+  // task 19: ตรวจก่อนเรียก เผื่อเบราว์เซอร์ยังจำ index.html เก่าที่ไม่มีไฟล์ plantings.js หน้านี้จะได้ไม่พัง
+  if (typeof renderPlantings === "function") {
+    renderPlantings(container.querySelector("#plantings-slot"), record.id, crops);
+  }
 }
 
 function onePlotHtml(record, crops) {
@@ -85,6 +89,7 @@ function onePlotHtml(record, crops) {
       ${list ? `<ol class="saved-top">${list}</ol>` : "<p>ครั้งนั้นยังแนะนำพืชให้แปลงนี้ไม่ได้</p>"}
     </div>
     ${record.earlier.length > 0 ? compareHtml(record.earlier[0], record.top3, crops) : ""}
+    <div id="plantings-slot"></div>
     <div class="result-actions">
       <button id="recheck" class="btn btn-primary" type="button">ตรวจใหม่ด้วยข้อมูลเดิม</button>
       <button id="edit" class="btn btn-secondary" type="button">แก้ข้อมูล</button>

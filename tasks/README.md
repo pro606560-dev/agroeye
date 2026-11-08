@@ -23,9 +23,10 @@
 | 3 | 15 | อ่านออกเสียงภาษาไทย | | ux-copy |
 | 3 | 16 | หน้าตั้งค่า + Gemini อธิบาย | | ux-copy, accessibility-review |
 | 3 | 17 | ตรวจรอบสุดท้าย + เตรียมของใส่รายงาน — **CHECKPOINT C** | 14 ก.พ. 2570 | accessibility-review, design-critique, ux-copy |
+| เสริม | 19 | ไอเดียเล็ก ๆ จากแอป Dragonfly (ทำเมื่อผู้ใช้สั่ง) | | ux-copy |
 
 หลัง CHECKPOINT C จะเป็นช่วงที่ผู้ใช้ทดสอบกับเกษตรกรและเขียนรายงาน Claude Code แก้งานตามที่ผู้ใช้ขอเท่านั้น
-`18-esp32-optional.md` ทำเมื่อผู้ใช้สั่งเท่านั้น
+`18-esp32-optional.md` และ `19-dragonfly-ideas.md` ทำเมื่อผู้ใช้สั่งเท่านั้น
 
 ## โครงไฟล์ของแอปเมื่อเสร็จ
 ```
