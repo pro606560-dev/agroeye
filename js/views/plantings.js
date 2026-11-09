@@ -17,10 +17,14 @@ function plantingsHtml(record, crops, message) {
       <h3 id="plantings-title">บันทึกรอบปลูก</h3>
       <p class="muted">จดไว้ว่าปลูกอะไรจริง ปลูกและเก็บเกี่ยววันไหน ไม่ต้องกรอกก็ได้ และไม่มีผลกับคะแนน</p>
       <div id="planting-notice" role="status">${message}</div>
-      ${rows ? `<ul class="planting-list">${rows}</ul>` : `<p>ยังไม่มีรอบปลูก กด "เพิ่มรอบปลูก" ด้านล่างเพื่อจดรอบแรก</p>`}
+      ${rows ? `<ul class="planting-list">${rows}</ul>` : `
+        <div class="empty-state empty-small">
+          ${EMPTY_PICTURE}
+          <p>ยังไม่มีรอบปลูก กด "เพิ่มรอบปลูก" ด้านล่างเพื่อจดรอบแรก</p>
+        </div>`}
       <details class="fold" id="planting-fold">
         <summary>เพิ่มรอบปลูก</summary>
-        ${plantingFormHtml(crops)}
+        ${plantingFormHtml(crops, record.top3)}
       </details>
     </section>`;
 }
@@ -46,18 +50,59 @@ function plantingRowHtml(item, crops) {
     </li>`;
 }
 
-function plantingFormHtml(crops) {
-  const options = crops.map((crop) => `<option value="${escapeHtml(crop.id)}">${crop.nameTh}</option>`).join("");
+// task 20 ช่วงที่ 2: ไอคอนกลุ่มพืช (เส้น) ฝังในโค้ด ใช้ออฟไลน์ได้โดยไม่ต้องเพิ่มไฟล์ที่ต้องแคช
+const CROP_ICON_START = `<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor"
+  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">`;
+const CROP_GROUP_ICONS = {
+  rice: `${CROP_ICON_START}<path d="M12 22V5"/><ellipse cx="12" cy="3.6" rx="1.4" ry="2.2"/>
+    <ellipse cx="9" cy="8" rx="1.5" ry="2.8" transform="rotate(-35 9 8)"/><ellipse cx="15" cy="8" rx="1.5" ry="2.8" transform="rotate(35 15 8)"/>
+    <ellipse cx="9" cy="13" rx="1.5" ry="2.8" transform="rotate(-35 9 13)"/><ellipse cx="15" cy="13" rx="1.5" ry="2.8" transform="rotate(35 15 13)"/></svg>`,
+  field: `${CROP_ICON_START}<path d="M3 21h18M12 21V10"/><path d="M12 14c-4 0-6-2-6-6 4 0 6 2 6 6z"/>
+    <path d="M12 11c0-4 2-6 6-6 0 4-2 6-6 6z"/></svg>`,
+  tree: `${CROP_ICON_START}<circle cx="12" cy="9" r="6.5"/><path d="M12 15.5V22M8 22h8M12 18l-2.5-2M12 17l2.5-2"/></svg>`,
+  vegetable: `${CROP_ICON_START}<path d="M12 21c-5 0-8-4-8-9 0-4 3-7.5 8-9 5 1.5 8 5 8 9 0 5-3 9-8 9z"/>
+    <path d="M12 21V8M12 13l-3-3M12 17l3-3"/></svg>`,
+  other: `${CROP_ICON_START}<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 7l3 3"/></svg>`,
+};
+
+function cropGroupIcon(group) {
+  if (group === "ข้าว") return CROP_GROUP_ICONS.rice;
+  if (group === "ไม้ผล" || group === "ไม้ยืนต้น") return CROP_GROUP_ICONS.tree;
+  if (String(group).startsWith("พืชผัก")) return CROP_GROUP_ICONS.vegetable;
+  return CROP_GROUP_ICONS.field;
+}
+
+function cropChoiceHtml(value, icon, title, hint) {
+  return `
+    <label class="choice crop-choice">
+      <input type="radio" name="cropId" value="${escapeHtml(value)}">
+      <span class="crop-icon" aria-hidden="true">${icon}</span>
+      <span class="choice-text"><span class="choice-title">${title}</span><span class="choice-hint">${hint}</span></span>
+    </label>`;
+}
+
+// การ์ดเลือกพืช (แบบรายการเลือกพันธุ์ของ Dragonfly): พืช 3 อันดับที่แอปแนะนำให้แปลงนี้ครั้งล่าสุด
+// (top3 ที่บันทึกไว้ ไม่ได้คิดคะแนนใหม่) ขึ้นก่อนพร้อมดาว ที่เหลือเรียงตามไฟล์ข้อมูล ปิดท้ายด้วย "พืชอื่น"
+function cropChoicesHtml(crops, top3) {
+  const topIds = (top3 ?? []).map((item) => item.id);
+  const topCrops = topIds.map((id) => cropById(crops, id)).filter(Boolean);
+  const otherCrops = crops.filter((crop) => !topIds.includes(crop.id));
+  const starHint = `<span class="crop-star" aria-hidden="true">★</span> <span class="crop-top">แนะนำ</span>`;
+  const row = (crop, hint) => cropChoiceHtml(crop.id, cropGroupIcon(crop.group), crop.nameTh, hint);
+  return [
+    ...topCrops.map((crop) => row(crop, starHint)),
+    ...otherCrops.map((crop) => row(crop, crop.group)),
+    cropChoiceHtml(OTHER_CROP, CROP_GROUP_ICONS.other, "พืชอื่น", "พิมพ์ชื่อพืชเอง"),
+  ].join("");
+}
+
+function plantingFormHtml(crops, top3) {
   return `
     <form id="planting-form" novalidate>
-      <div class="field">
-        <label for="pl-crop">พืชที่ปลูก</label>
-        <select id="pl-crop" class="input" name="cropId">
-          <option value="">เลือกพืช</option>
-          ${options}
-          <option value="${OTHER_CROP}">พืชอื่น (พิมพ์ชื่อเอง)</option>
-        </select>
-      </div>
+      <fieldset class="crop-field">
+        <legend>พืชที่ปลูก (แตะเลือก 1 อย่าง)</legend>
+        ${cropChoicesHtml(crops, top3)}
+      </fieldset>
       <div class="field" id="pl-other-field" hidden>
         <label for="pl-other">ชื่อพืช</label>
         <input id="pl-other" class="input" name="otherName" type="text" maxlength="${PLANTING_OTHER_MAX}" autocomplete="off">
@@ -96,7 +141,8 @@ function readPlantingForm(form) {
 function setupPlantingForm(slot, plotId, crops) {
   const form = slot.querySelector("#planting-form");
   const otherField = slot.querySelector("#pl-other-field");
-  form.cropId.addEventListener("change", () => { otherField.hidden = form.cropId.value !== OTHER_CROP; });
+  // ช่องเลือกพืชเป็นการ์ดแบบ radio หลายอัน จึงฟังการเปลี่ยนที่ทั้งฟอร์ม
+  form.addEventListener("change", () => { otherField.hidden = form.cropId.value !== OTHER_CROP; });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const input = readPlantingForm(form);

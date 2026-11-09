@@ -100,3 +100,54 @@ test("รอบปลูก: วันที่แบบไทย ไม่เ�
   assertEqual(thaiDay("2026-06-15"), `15 ${MONTH_NAMES[5]} 2569`);
   assertEqual(thaiDay("2027-01-01"), `1 ${MONTH_NAMES[0]} 2570`);
 });
+
+// task 20 ช่วงที่ 2: การ์ดเลือกพืช (แทนช่อง select เดิม) และภาพหน้าว่าง
+function cropChoiceValues(html) {
+  const box = document.createElement("div");
+  box.innerHTML = html;
+  return [...box.querySelectorAll('input[type="radio"][name="cropId"]')].map((input) => input.value);
+}
+
+test("เลือกพืช: มีการ์ดครบทุกพืช + พืชอื่น พืช 3 อันดับที่แนะนำขึ้นก่อนตามลำดับพร้อมดาว", async () => {
+  const crops = await getCrops();
+  const top3 = [{ id: "peanut", score: 90 }, { id: "maize", score: 80 }, { id: "mango", score: 70 }];
+  const html = cropChoicesHtml(crops, top3);
+  const values = cropChoiceValues(html);
+  assertEqual(values.length, crops.length + 1);
+  assertEqual(values.slice(0, 3), ["peanut", "maize", "mango"]);
+  assertEqual(values[values.length - 1], OTHER_CROP);
+  assertEqual(new Set(values).size, values.length); // ไม่มีพืชซ้ำ
+  assertEqual((html.match(/crop-top/g) ?? []).length, 3);
+});
+
+test("เลือกพืช: แปลงที่ไม่มีพืชแนะนำ หรือ top3 มีรหัสที่ไม่มีในข้อมูล ยังแสดงครบและไม่มีดาว", async () => {
+  const crops = await getCrops();
+  for (const top3 of [[], undefined, [{ id: "ไม่มีพืชนี้", score: 50 }]]) {
+    const html = cropChoicesHtml(crops, top3);
+    assertEqual(cropChoiceValues(html).length, crops.length + 1);
+    assertEqual(html.includes("crop-top"), false);
+  }
+});
+
+test("เลือกพืช: ฟอร์มรอบปลูกอ่านค่าพืชที่แตะเลือกได้ เลือก 'พืชอื่น' แล้วช่องชื่อพืชโผล่", async () => {
+  const crops = await getCrops();
+  const box = document.createElement("div");
+  box.innerHTML = plantingFormHtml(crops, []);
+  const form = box.querySelector("#planting-form");
+  assertEqual(form.querySelector("select"), null);
+  assertEqual(readPlantingForm(form).cropId, "");
+  form.querySelector('input[value="rice-rd6"]').checked = true;
+  assertEqual(readPlantingForm(form).cropId, "rice-rd6");
+  setupPlantingForm(box, "ไม่มีแปลงนี้", crops); // ผูกการทำงานจริงของแอป (เทสต์นี้ไม่กดบันทึก)
+  const otherField = box.querySelector("#pl-other-field");
+  assertEqual(otherField.hidden, true);
+  const other = form.querySelector(`input[value="${OTHER_CROP}"]`);
+  other.checked = true;
+  other.dispatchEvent(new Event("change", { bubbles: true }));
+  assertEqual(otherField.hidden, false);
+});
+
+test("ภาพหน้าว่าง: เป็นภาพประกอบที่ซ่อนจากโปรแกรมอ่านจอ และไม่โหลดไฟล์จากเน็ต", () => {
+  assertTrue(EMPTY_PICTURE.includes('aria-hidden="true"'));
+  assertEqual(/href=|src=|https?:/.test(EMPTY_PICTURE.replace('xmlns="http://www.w3.org/2000/svg"', "")), false);
+});

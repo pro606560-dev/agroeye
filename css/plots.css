@@ -60,3 +60,28 @@
 .plantings select.input { appearance: auto; }
 #pl-other-field[hidden] { display: none; }
 #planting-form { padding: 0 var(--space-3) var(--space-3); border-top: 1px solid var(--color-line); padding-top: var(--space-3); }
+
+/* task 20 ช่วงที่ 2: การ์ดเลือกพืชในฟอร์มรอบปลูก (ใช้ .choice เดิม แต่เตี้ยลงเพราะมี 13 ตัวเลือก) */
+.crop-field { margin: 0 0 var(--space-3); padding: 0; border: 0; min-width: 0; }
+.crop-field legend { margin-bottom: var(--space-1); padding: 0; font-weight: 700; }
+.choice.crop-choice { min-height: 64px; }
+.crop-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+.crop-choice:has(input:checked) .crop-icon,
+.crop-choice:hover .crop-icon { background: var(--color-surface); }
+.crop-star { color: var(--color-accent); -webkit-text-stroke: 1px var(--color-ink); }
+.crop-top { color: var(--color-ok); font-weight: 700; }
+
+/* task 20 ช่วงที่ 2: ภาพหน้าว่าง */
+.empty-state { text-align: center; }
+.empty-picture { display: block; width: 160px; height: 120px; margin: 0 auto var(--space-2); }
+.empty-small .empty-picture { width: 112px; height: 84px; }

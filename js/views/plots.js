@@ -8,6 +8,18 @@ const NO_STORAGE_HTML = `
     ลองปิดโหมดไม่ระบุตัวตน หรือลบรูปและแอปที่ไม่ใช้ แล้วเปิดหน้านี้อีกครั้ง</p>
   </div>`;
 
+// task 20 ช่วงที่ 2: ภาพหน้าว่าง (แปลงดิน ต้นกล้า ดวงอาทิตย์) วาดเอง ฝังในโค้ด ใช้ออฟไลน์ได้
+// ใช้ทั้งหน้ารายการแปลงตอนยังไม่มีแปลง และส่วนรอบปลูกตอนยังไม่มีรอบ (plantings.js) เป็นภาพประกอบเฉย ๆ จึงซ่อนจากโปรแกรมอ่านจอ
+const EMPTY_PICTURE = `<svg class="empty-picture" viewBox="0 0 160 120" aria-hidden="true" focusable="false">
+  <circle cx="80" cy="60" r="56" fill="#E3E8F3"/>
+  <circle cx="117" cy="33" r="11" fill="#F2B233"/>
+  <ellipse cx="80" cy="94" rx="54" ry="15" fill="#8A6236"/>
+  <path d="M42 92q38-9 76 0M50 100q30-6 60 0" fill="none" stroke="#5C4326" stroke-width="3" stroke-linecap="round"/>
+  <path d="M80 90V60" stroke="#2A6134" stroke-width="4" stroke-linecap="round"/>
+  <path d="M80 74c-14 0-21-6-21-19 14 0 21 6 21 19z" fill="#2A6134"/>
+  <path d="M80 67c0-13 7-19 21-19 0 13-7 19-21 19z" fill="#3E8A4C"/>
+</svg>`;
+
 async function renderPlots(container, plotId) {
   container.innerHTML = `<h2 tabindex="-1">กำลังโหลด</h2>`;
   const crops = await getCrops();
@@ -28,7 +40,10 @@ function renderPlotList(container, crops) {
   const notice = canUseStorage() ? "" : NO_STORAGE_HTML;
   if (plots.length === 0) {
     container.innerHTML = `
-      <h2 tabindex="-1">ยังไม่มีแปลงที่บันทึกไว้</h2>
+      <div class="empty-state">
+        ${EMPTY_PICTURE}
+        <h2 tabindex="-1">ยังไม่มีแปลงที่บันทึกไว้</h2>
+      </div>
       ${notice}
       <p>ตรวจแปลงแล้วกด "บันทึกแปลงนี้" ในหน้าผล แปลงจะมาอยู่ที่นี่ กลับมาดูผลหรือตรวจซ้ำได้</p>
       <a class="btn btn-primary" href="#/input">ตรวจแปลงใหม่</a>`;
