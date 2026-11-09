@@ -158,9 +158,10 @@ const STEP_VIEWS = {
       ${numberFieldHtml("moistureText", "ความชื้นดิน (%)")}
       <details class="help" ${hasNutrientValue(draft) ? "open" : ""}>
         <summary>ค่าปุ๋ยในดิน (N/P/K)</summary>
-        ${numberFieldHtml("nitrogenText", "ไนโตรเจน (N)")}
-        ${numberFieldHtml("phosphorusText", "ฟอสฟอรัส (P)")}
-        ${numberFieldHtml("potassiumText", "โพแทสเซียม (K)")}
+        <p class="muted">กรอกตัวเลขจากชุดตรวจดิน หน่วย ${NPK_UNIT} (เท่ากับ ppm) แอปเก็บไว้ดูย้อนหลังในแปลงของฉัน ยังไม่ใช้คิดคะแนน</p>
+        ${numberFieldHtml("nitrogenText", `ไนโตรเจน (N) ${NPK_UNIT}`)}
+        ${numberFieldHtml("phosphorusText", `ฟอสฟอรัส (P) ${NPK_UNIT}`)}
+        ${numberFieldHtml("potassiumText", `โพแทสเซียม (K) ${NPK_UNIT}`)}
       </details>`,
     check: extraError,
     skip: { label: "ข้าม ไปดูผล", run: clearExtraStep },

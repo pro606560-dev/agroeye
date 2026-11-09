@@ -84,6 +84,7 @@ function onePlotHtml(record, crops) {
     <h2 tabindex="-1">${record.name ? escapeHtml(record.name) : UNNAMED_PLOT}</h2>
     <p class="plot-summary">${plotSummaryHtml(record.plot)}</p>
     <p class="muted">ตรวจล่าสุด ${thaiDate(record.date)} · ตรวจแล้ว ${rounds} ครั้ง</p>
+    ${npkSummaryText(record.plot) ? `<p>ค่าปุ๋ยในดินที่กรอกไว้: ${npkSummaryText(record.plot)} (ยังไม่ใช้คิดคะแนน)</p>` : ""}
     <div class="card">
       <h3>พืชที่แนะนำครั้งล่าสุด</h3>
       ${list ? `<ol class="saved-top">${list}</ol>` : "<p>ครั้งนั้นยังแนะนำพืชให้แปลงนี้ไม่ได้</p>"}

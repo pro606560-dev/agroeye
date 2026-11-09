@@ -8,7 +8,7 @@ async function sampleRecommended(plot) {
 
 const EXPORT_PLOT = {
   name: "นาบนหลังบ้าน", surveyPointId: "point-A", ph: 6, texture: "heavy", textureConfidence: null,
-  drainage: "poor", month: 6, light: "sun", moisture: null, nitrogen: null, phosphorus: null, potassium: null,
+  drainage: "poor", month: 6, light: "full-sun", moisture: null, nitrogen: null, phosphorus: null, potassium: null,
   // ใส่พิกัดปลอมไว้ เพื่อตรวจว่าโค้ดไม่หยิบไปใส่ในรูป แม้วันหลังจะมีพิกัดในข้อมูลแปลง
   lat: 18.12345, lon: 99.56789,
 };

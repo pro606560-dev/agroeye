@@ -64,6 +64,42 @@ test("ตรวจค่าเพิ่มเติม: ว่างผ่าน
   assertEqual(extraError(draft), null);
 });
 
+test("N/P/K (task 19 ข้อ D): ติดลบไม่ผ่าน 0 และทศนิยมผ่าน", () => {
+  const draft = createDraft(5);
+  draft.nitrogenText = "-5";
+  assertTrue(extraError(draft).startsWith("ค่าปุ๋ยติดลบไม่ได้"));
+  draft.nitrogenText = "-0.5";
+  assertTrue(extraError(draft).startsWith("ค่าปุ๋ยติดลบไม่ได้"));
+  draft.nitrogenText = "abc";
+  assertTrue(extraError(draft).startsWith("ค่าปุ๋ยต้องเป็นตัวเลขเท่านั้น"));
+  draft.nitrogenText = "0";
+  draft.phosphorusText = "15.5";
+  assertEqual(extraError(draft), null);
+});
+
+test("N/P/K (task 19 ข้อ D): สรุปค่าที่กรอกพร้อมหน่วย mg/kg ไม่กรอกเลยคืน null", () => {
+  assertEqual(NPK_UNIT, "mg/kg");
+  assertEqual(npkSummaryText({ nitrogen: 20, phosphorus: 15, potassium: 80 }), "N 20 · P 15 · K 80 mg/kg");
+  assertEqual(npkSummaryText({ nitrogen: 0, phosphorus: null, potassium: 80 }), "N 0 · K 80 mg/kg");
+  assertEqual(npkSummaryText({ nitrogen: null, phosphorus: null, potassium: null }), null);
+  assertEqual(npkSummaryText({}), null); // แปลงเก่าที่ไม่มีช่องนี้
+});
+
+test("N/P/K (task 19 ข้อ D): ค่าที่กรอกเก็บในข้อมูลแปลง แต่ไม่เปลี่ยนคะแนน", async () => {
+  const crops = await loadCrops();
+  const draft = createDraft(5);
+  draft.texture = "heavy";
+  draft.phText = "6";
+  const without = rankCrops(buildPlot(draft), crops, null);
+  draft.nitrogenText = "20";
+  draft.phosphorusText = "15";
+  draft.potassiumText = "80";
+  const plot = buildPlot(draft);
+  assertEqual([plot.nitrogen, plot.phosphorus, plot.potassium], [20, 15, 80]);
+  const withNpk = rankCrops(plot, crops, null);
+  assertEqual(withNpk.top.map((r) => [r.cropId, r.score]), without.top.map((r) => [r.cropId, r.score]));
+});
+
 test("คำข้างตัวเลข pH แบ่ง 4 ช่วงตรงขอบ", () => {
   assertEqual(phWord(4), "ดินเปรี้ยวมาก");
   assertEqual(phWord(5.5), "ดินเปรี้ยวมาก");

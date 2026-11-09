@@ -2,7 +2,7 @@
 // ทุกครั้งที่แก้ไฟล์ของแอป ต้องเปลี่ยน CACHE_VERSION ให้ตรงกับ APP_VERSION ใน js/config.js
 // (tests.html ตรวจให้ว่าตรงกัน) เครื่องผู้ใช้จึงจะรู้ว่ามีเวอร์ชันใหม่
 
-const CACHE_VERSION = "1.2";
+const CACHE_VERSION = "1.3";
 const CACHE_NAME = `agroeye-v${CACHE_VERSION}`;
 
 // ไฟล์ทั้งหมดที่แอปใช้ (tests.html ตรวจว่าทุกไฟล์ที่ index.html เรียกอยู่ในรายการนี้)

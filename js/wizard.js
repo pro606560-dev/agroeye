@@ -105,10 +105,26 @@ function extraError(draft) {
     return "ความชื้นดินต้องอยู่ระหว่าง 0 ถึง 100 ลองดูตัวเลขอีกครั้ง หรือลบออกถ้าไม่ทราบ";
   }
   const npk = [draft.nitrogenText, draft.phosphorusText, draft.potassiumText];
+  // task 19 ข้อ D: ค่าจากชุดตรวจดินติดลบไม่ได้ (ไม่ตั้งค่าสูงสุด เพราะยังไม่มีแหล่งอ้างอิง)
+  // parseDecimal ไม่รับเครื่องหมายลบอยู่แล้ว จึงต้องตรวจก่อน เพื่อบอกเหตุผลให้ตรง
+  if (npk.some((text) => /^-\s*[\d.,]/.test(String(text).trim()))) {
+    return "ค่าปุ๋ยติดลบไม่ได้ ต้องเป็น 0 หรือมากกว่า ลองดูตัวเลขอีกครั้ง หรือลบออกถ้าไม่ทราบ";
+  }
   if (npk.some((text) => !isBlank(text) && parseDecimal(text) === null)) {
     return "ค่าปุ๋ยต้องเป็นตัวเลขเท่านั้น ลองดูอีกครั้ง หรือลบออกถ้าไม่ทราบ";
   }
   return null;
+}
+
+// หน่วยของค่า N/P/K ตามชุดตรวจดินของทีม (ผู้ใช้ยืนยัน 8 พ.ย. 2569) mg/kg เท่ากับ ppm
+const NPK_UNIT = "mg/kg";
+
+// ข้อความสรุปค่าปุ๋ยที่เคยกรอก เช่น "N 20 · P 15 · K 80 mg/kg" ถ้าไม่ได้กรอกเลยคืน null
+function npkSummaryText(plot) {
+  const parts = [["N", plot.nitrogen], ["P", plot.phosphorus], ["K", plot.potassium]]
+    .filter(([, value]) => value !== null && value !== undefined)
+    .map(([name, value]) => `${name} ${value}`);
+  return parts.length > 0 ? `${parts.join(" · ")} ${NPK_UNIT}` : null;
 }
 
 // คำง่ายที่แสดงข้างตัวเลข pH แบ่ง 4 กลุ่ม (เกณฑ์ใน js/config.js)
