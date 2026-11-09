@@ -2,7 +2,7 @@
 // ทุกครั้งที่แก้ไฟล์ของแอป ต้องเปลี่ยน CACHE_VERSION ให้ตรงกับ APP_VERSION ใน js/config.js
 // (tests.html ตรวจให้ว่าตรงกัน) เครื่องผู้ใช้จึงจะรู้ว่ามีเวอร์ชันใหม่
 
-const CACHE_VERSION = "1.5";
+const CACHE_VERSION = "1.6";
 const CACHE_NAME = `agroeye-v${CACHE_VERSION}`;
 
 // ไฟล์ทั้งหมดที่แอปใช้ (tests.html ตรวจว่าทุกไฟล์ที่ index.html เรียกอยู่ในรายการนี้)
@@ -10,6 +10,7 @@ const APP_FILES = [
   "./",
   "index.html",
   "manifest.webmanifest",
+  "css/fonts.css",
   "css/style.css",
   "css/input.css",
   "css/result.css",
@@ -58,6 +59,8 @@ const APP_FILES = [
   "js/views/settings.js",
   "js/views/settings-more.js",
   "lib/chartjs/chart.umd.min.js",
+  "lib/fonts/Sarabun-Regular.ttf",
+  "lib/fonts/Sarabun-Bold.ttf",
   "js/app.js",
   "data/crops.json",
   "data/survey-points.json",

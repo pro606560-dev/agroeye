@@ -153,3 +153,39 @@ test("หน้าแรก: แสดงอุณหภูมิและโอ
   assertTrue(html.includes("31°") && html.includes("60%"), html);
   assertTrue(!todayWeatherHtml({ tempC: 25, rainChance: null }).includes("โอกาสฝน"));
 });
+
+// ---------- การ์ดอากาศแบบมีไอคอน (task 20 ช่วงที่ 3) ----------
+
+test("readTodayExtras: อ่านต่ำสุด/สูงสุดวันนี้และเวลาที่อัปเดต ไม่มีค่าเป็น null", () => {
+  const json = {
+    current: { time: "2026-11-09T21:15", temperature_2m: 24 },
+    daily: { temperature_2m_min: [19.6], temperature_2m_max: [31.2] },
+  };
+  assertEqual(readTodayExtras(json), { minC: 19.6, maxC: 31.2, updatedAt: "21:15" });
+  assertEqual(readTodayExtras({}), { minC: null, maxC: null, updatedAt: null });
+  assertEqual(readTodayExtras({ current: { time: "ผิดรูปแบบ" } }).updatedAt, null);
+});
+
+test("rainLevel: แบ่งโอกาสฝนตามเกณฑ์ใน config.js", () => {
+  assertEqual(rainLevel(null), null);
+  assertEqual(rainLevel(0), "low");
+  assertEqual(rainLevel(WEATHER_RAIN_MAYBE - 1), "low");
+  assertEqual(rainLevel(WEATHER_RAIN_MAYBE), "maybe");
+  assertEqual(rainLevel(WEATHER_RAIN_LIKELY - 1), "maybe");
+  assertEqual(rainLevel(WEATHER_RAIN_LIKELY), "likely");
+  assertEqual(rainLevel(100), "likely");
+});
+
+test("การ์ดอากาศ: มีไอคอน คำ ช่วงอุณหภูมิ และบรรทัดที่มา", () => {
+  const html = todayWeatherHtml({ tempC: 24, rainChance: 90, minC: 19.6, maxC: 31.2, updatedAt: "21:15" });
+  assertTrue(html.includes("weather-icon") && html.includes("ฝนน่าจะตก"), html);
+  assertTrue(html.includes("วันนี้ 20–31 องศา"), html);
+  assertTrue(html.includes("ที่มา: พยากรณ์อากาศจาก Open-Meteo เวลา 21:15 น."), html);
+});
+
+test("การ์ดอากาศ: ไม่มีช่วงอุณหภูมิหรือโอกาสฝน ไม่แสดงส่วนนั้น และไม่มีคำว่า NaN/undefined", () => {
+  const html = todayWeatherHtml({ tempC: 25, rainChance: null, minC: null, maxC: null, updatedAt: null });
+  assertTrue(!html.includes("weather-icon") && !html.includes("วันนี้ "), html);
+  assertTrue(!/NaN|undefined|null/.test(html), html);
+  assertTrue(html.includes("ที่มา: พยากรณ์อากาศจาก Open-Meteo</p>"), html);
+});

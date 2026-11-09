@@ -2,6 +2,8 @@
 // ตรรกะอยู่ใน js/result-logic.js สูตรคะแนนอยู่ใน js/scoring.js
 
 const UNNAMED_PLOT = "แปลงไม่มีชื่อ";
+// บรรทัดที่มาใต้รายการพืชแนะนำ (task 20 ช่วงที่ 3 แบบ Rice Fit) ชื่อแหล่งอยู่ในหน้าวิธีปลูกของพืชแต่ละชนิด
+const RESULT_SOURCE_LINE = "ที่มา: ข้อมูลพืชจากหน่วยงาน งานวิจัย และเอกสารที่แอปจดไว้ เช่น กรมพัฒนาที่ดิน และ FAO กด \"ดูวิธีปลูก\" เพื่อดูชื่อแหล่งของพืชแต่ละชนิด";
 const DISCLAIMER = "คำแนะนำนี้คำนวณจากข้อมูลทั่วไป ควรปรึกษาเกษตรอำเภอก่อนลงทุน";
 
 let loadedCrops = null; // เก็บไว้ ไม่ต้องโหลดใหม่ทุกครั้งที่กลับมาหน้านี้
@@ -177,7 +179,8 @@ function recommendedHtml(results, plot, crops) {
     cropCardHtml(result, index + 1, cropById(crops, result.cropId), plot)).join("");
   return `
     <ol class="crop-list">${cards}</ol>
-    <p class="muted">ความมั่นใจบอกว่าแอปมีข้อมูลมากแค่ไหน ยิ่งข้อมูลครบ ยิ่งเชื่อผลนี้ได้มาก</p>`;
+    <p class="muted">ความมั่นใจบอกว่าแอปมีข้อมูลมากแค่ไหน ยิ่งข้อมูลครบ ยิ่งเชื่อผลนี้ได้มาก</p>
+    <p class="source-line">${RESULT_SOURCE_LINE}</p>`;
 }
 
 function cropCardHtml(result, rank, crop, plot) {

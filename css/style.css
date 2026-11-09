@@ -56,7 +56,7 @@ body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-ink);
-  font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  font-family: "Sarabun", "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif; /* Sarabun อยู่ใน css/fonts.css */
   font-size: var(--text-body);
   line-height: 1.65;
   overflow-wrap: anywhere;
@@ -90,6 +90,7 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
 }
 
 .muted { color: var(--color-ink-soft); }
+.source-line { margin-top: var(--space-2); color: var(--color-ink-soft); } /* บรรทัด "ที่มา: ..." (task 20 ช่วงที่ 3) */
 
 /* แถบหัว: ปุ่มย้อนกลับอยู่ซ้ายบนตำแหน่งเดิมทุกหน้า */
 .topbar {

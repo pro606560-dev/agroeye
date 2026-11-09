@@ -12,7 +12,7 @@ const MAETHA_LONGITUDE = 99.513;
 const FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
   + `?latitude=${MAETHA_LATITUDE}&longitude=${MAETHA_LONGITUDE}`
   + "&current=temperature_2m"
-  + "&daily=precipitation_probability_max"
+  + "&daily=precipitation_probability_max,temperature_2m_min,temperature_2m_max"
   + "&timezone=Asia%2FBangkok&forecast_days=1";
 
 // บอกผู้ใช้ว่าตัวเลขอากาศมาจากไหน (แสดงในหน้าผล)
@@ -54,14 +54,37 @@ function readForecast(json) {
   return { tempC, rainChance };
 }
 
-// คืน { tempC, rainChance } หรือ null ถ้าไม่มีเน็ต ช้าเกิน 8 วินาที หรือคำตอบผิดรูปแบบ
+// ค่าเสริมของการ์ดอากาศ (task 20 ช่วงที่ 3): ต่ำสุด/สูงสุดวันนี้ และเวลาที่ Open-Meteo อัปเดต
+// แยกจาก readForecast เพื่อให้ผลของ readForecast เหมือนเดิม ค่าไหนไม่มีเป็น null
+function readTodayExtras(json) {
+  const daily = json?.daily ?? {};
+  const time = json?.current?.time ?? ""; // เช่น "2026-11-09T21:15" (เวลาไทย)
+  return {
+    minC: daily.temperature_2m_min?.[0] ?? null,
+    maxC: daily.temperature_2m_max?.[0] ?? null,
+    updatedAt: /T\d\d:\d\d/.test(time) ? time.slice(11, 16) : null, // "21:15"
+  };
+}
+
+// แปลงโอกาสฝนเป็นระดับ ใช้เลือกไอคอนและคำบนการ์ด (แสดงอย่างเดียว ไม่มีผลกับคะแนน)
+// เกณฑ์อยู่ใน js/config.js คืน "likely" | "maybe" | "low" หรือ null ถ้าไม่มีค่า
+function rainLevel(rainChance) {
+  if (rainChance === null || rainChance === undefined) return null;
+  if (rainChance >= WEATHER_RAIN_LIKELY) return "likely";
+  if (rainChance >= WEATHER_RAIN_MAYBE) return "maybe";
+  return "low";
+}
+
+// คืน { tempC, rainChance, minC, maxC, updatedAt } หรือ null ถ้าไม่มีเน็ต ช้าเกิน 8 วินาที หรือคำตอบผิดรูปแบบ
 async function getToday(url = FORECAST_URL, timeoutMs = WEATHER_TIMEOUT_MS) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(url, { signal: controller.signal });
     if (!response.ok) return null;
-    return readForecast(await response.json());
+    const json = await response.json();
+    const today = readForecast(json);
+    return today ? { ...today, ...readTodayExtras(json) } : null;
   } catch (err) {
     return null; // ไม่มีเน็ตเป็นเรื่องปกติ ไม่ต้องเตือนผู้ใช้
   } finally {

@@ -7,7 +7,7 @@ const CHART_LIB_URL = "lib/chartjs/chart.umd.min.js";
 const CHART_COLORS = ["#1F3864", "#8C3A1E", "#C98A4B"];
 const CHART_INK = "#22261E";
 const CHART_GRID = "#D5D9CF";
-const EXPORT_FONT = '"Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif';
+const EXPORT_FONT = '"Sarabun", "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif';
 
 let chartLibPromise = null;
 

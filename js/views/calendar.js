@@ -24,7 +24,7 @@ function calendarPageHtml(crops, climateFile, thisMonth) {
     .map((entry) => monthHtml(entry, monthClimate(climateFile, entry.month), rainMax, thisMonth))
     .join("");
   const note = climateFile
-    ? `<p class="calendar-note">อุณหภูมิและฝนเป็นค่าเฉลี่ยของแม่ทะ ปี 2559–2568 จาก Open-Meteo</p>`
+    ? `<p class="calendar-note source-line">ที่มา: อุณหภูมิและฝนเฉลี่ยของแม่ทะ ปี 2559–2568 จาก Open-Meteo</p>`
     : `<p class="calendar-note">ยังไม่มีข้อมูลอุณหภูมิและฝน (เปิดไฟล์ข้อมูลอากาศไม่ได้)</p>`;
   return `
     <h2 tabindex="-1">เดือนไหนเริ่มปลูกอะไรได้</h2>
