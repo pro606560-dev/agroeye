@@ -170,18 +170,9 @@ a { color: var(--color-primary); text-underline-offset: 3px; }
   cursor: not-allowed;
 }
 
-/* ลิงก์ขนาดใหญ่กดง่าย */
-.link-big {
-  display: flex;
-  align-items: center;
-  min-height: var(--button-height);
-  font-weight: 700;
-}
-
 /* หน้าแรก */
 .slot { margin-bottom: var(--space-3); }
 .slot:empty { display: none; }
-.home-links { margin-top: var(--space-3); }
 
 /* การ์ดข้อความ */
 .card {

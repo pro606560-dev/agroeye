@@ -51,9 +51,10 @@
   padding: var(--space-2) 0 var(--space-2) var(--space-2);
   border-left: 6px solid var(--color-ok);
 }
-.planting-row + .planting-row { margin-top: var(--space-2); }
-.planting-row > span { display: block; }
-.planting-name { display: block; font-size: var(--text-h2); }
+.planting-row + .planting-row { margin-top: var(--space-3); }
+.planting-name { display: block; margin-bottom: var(--space-1); font-size: var(--text-h2); }
+.planting-row .facts { margin-bottom: var(--space-2); background: var(--color-bg); }
+.planting-row .fact dd { background: var(--color-surface); }
 .planting-delete { margin-top: var(--space-1); }
 .plantings textarea.input { min-height: 96px; }
 .plantings select.input { appearance: auto; }

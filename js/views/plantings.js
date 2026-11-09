@@ -29,15 +29,17 @@ function plantingCropName(item, crops) {
   return item.cropId ? cropName(crops, item.cropId) : escapeHtml(item.otherName ?? "");
 }
 
+// task 20: วันที่และหมายเหตุใช้แถว "หัวข้อ / คำ" แบบเดียวกับสรุปแปลง (factsListHtml อยู่ใน result.js)
 function plantingRowHtml(item, crops) {
-  const planted = item.plantedOn ? `ปลูก ${thaiDay(item.plantedOn)}` : "ไม่ได้จดวันปลูก";
-  const harvested = item.harvestedOn ? `เก็บเกี่ยว ${thaiDay(item.harvestedOn)}` : "ยังไม่ได้จดวันเก็บเกี่ยว";
+  const rows = [
+    ["วันที่ปลูก", item.plantedOn ? thaiDay(item.plantedOn) : "ไม่ได้จด"],
+    ["วันที่เก็บเกี่ยว", item.harvestedOn ? thaiDay(item.harvestedOn) : "ยังไม่ได้จด"],
+  ];
+  if (item.note) rows.push(["หมายเหตุ", escapeHtml(item.note)]);
   return `
     <li class="planting-row">
       <strong class="planting-name">${plantingCropName(item, crops)}</strong>
-      <span>${planted}</span>
-      <span>${harvested}</span>
-      ${item.note ? `<span>หมายเหตุ: ${escapeHtml(item.note)}</span>` : ""}
+      ${factsListHtml(rows, "รายละเอียดรอบปลูก")}
       <div class="planting-delete" data-id="${escapeHtml(item.id)}">
         <button class="btn btn-secondary" type="button" data-action="ask">ลบรอบนี้</button>
       </div>

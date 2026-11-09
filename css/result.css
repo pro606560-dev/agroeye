@@ -1,6 +1,33 @@
 /* หน้าผลลัพธ์ แยกจาก style.css เพราะไฟล์นั้นใกล้ 300 บรรทัดแล้ว */
 
-.plot-summary { color: var(--color-ink-soft); }
+/* แถว "หัวข้อ / คำ" (task 20) ใช้ในหน้าผลลัพธ์ หน้าแปลงเดียว และรอบปลูก
+   หัวข้อชิดซ้ายสีรอง คำอยู่ในป้ายชิดขวา ถ้าตัวอักษรใหญ่จนไม่พอ คำจะลงบรรทัดใหม่เอง */
+.facts {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+.fact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px var(--space-2);
+  padding: var(--space-1) 0;
+}
+.fact + .fact { border-top: 1px solid var(--color-primary-tint); }
+.fact dt { color: var(--color-ink-soft); }
+.fact dd {
+  margin: 0 0 0 auto;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font-weight: 700;
+  text-align: right;
+}
+.fact-note { font-weight: 400; }
 
 .crop-list, .reason-list, .other-list {
   margin: 0;

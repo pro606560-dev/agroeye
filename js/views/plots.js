@@ -82,7 +82,7 @@ function onePlotHtml(record, crops) {
     `<li><strong>${cropName(crops, item.id)}</strong> ${item.score} คะแนน</li>`).join("");
   return `
     <h2 tabindex="-1">${record.name ? escapeHtml(record.name) : UNNAMED_PLOT}</h2>
-    <p class="plot-summary">${plotSummaryHtml(record.plot)}</p>
+    ${plotFactsHtml(record.plot, false)}
     <p class="muted">ตรวจล่าสุด ${thaiDate(record.date)} · ตรวจแล้ว ${rounds} ครั้ง</p>
     ${npkSummaryText(record.plot) ? `<p>ค่าปุ๋ยในดินที่กรอกไว้: ${npkSummaryText(record.plot)} (ยังไม่ใช้คิดคะแนน)</p>` : ""}
     <div class="card">

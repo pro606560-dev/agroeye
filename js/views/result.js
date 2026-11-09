@@ -125,7 +125,7 @@ function resultPageHtml(plot, ranking, crops) {
   const { recommended, others } = splitRecommendations(ranking);
   return `
     <h2 tabindex="-1">${recommended.length > 0 ? "พืชที่แนะนำสำหรับแปลงนี้" : "ยังแนะนำพืชให้แปลงนี้ไม่ได้"}</h2>
-    <p class="plot-summary">${plotSummaryHtml(plot)}</p>
+    ${plotFactsHtml(plot)}
     ${recommended.length > 0 ? speakButtonHtml("ฟังคำแนะนำ") : ""}
     ${recommended.length > 0 ? recommendedHtml(recommended, plot, crops) : noResultHtml(ranking)}
     ${hintsHtml(plot)}
@@ -146,12 +146,30 @@ function resultPageHtml(plot, ranking, crops) {
 // เนื้อดินที่ผู้ใช้ทดสอบเอง บอกความมั่นใจต่อท้าย ไม่ตัดคะแนน
 const TEXTURE_CONFIDENCE_WORDS = { "fairly-sure": " (ค่อนข้างมั่นใจ)", unsure: " (ไม่แน่ใจ)" };
 
-function plotSummaryHtml(plot) {
-  const parts = [plot.name ? escapeHtml(plot.name) : UNNAMED_PLOT];
-  if (plot.texture) parts.push(TEXTURE_NAMES[plot.texture] + (TEXTURE_CONFIDENCE_WORDS[plot.textureConfidence] ?? ""));
-  if (plot.ph !== null) parts.push(`${phWord(plot.ph)} (pH ${plot.ph})`);
-  if (plot.month !== null) parts.push(`ปลูกเดือน ${MONTH_NAMES[plot.month - 1]}`);
-  return parts.join(" · ");
+const UNKNOWN_WORD = "ไม่ทราบ";
+
+// สรุปแปลงเป็นแถว "หัวข้อ / คำ" (task 20 แบบข้อมูลดินของ Dragonfly) ใช้ทั้งหน้าผลลัพธ์และหน้าแปลงเดียว
+// withName = แสดงแถวชื่อแปลงด้วย (หน้าแปลงเดียวมีชื่อเป็นหัวข้ออยู่แล้วจึงไม่ต้องแสดงซ้ำ)
+function plotFactsHtml(plot, withName = true) {
+  const rows = [];
+  if (withName) rows.push(["แปลง", plot.name ? escapeHtml(plot.name) : UNNAMED_PLOT]);
+  rows.push(["ดิน", plot.texture
+    ? TEXTURE_NAMES[plot.texture] + factNote(TEXTURE_CONFIDENCE_WORDS[plot.textureConfidence])
+    : UNKNOWN_WORD]);
+  rows.push(["ความเปรี้ยวของดิน", plot.ph !== null ? phWord(plot.ph) + factNote(` (pH ${plot.ph})`) : UNKNOWN_WORD]);
+  rows.push(["หลังฝนตกหนัก", DRAINAGE_WORDS[plot.drainage] ?? UNKNOWN_WORD]); // คำอยู่ใน js/crop-logic.js
+  if (plot.month !== null) rows.push(["เดือนที่ปลูก", MONTH_NAMES[plot.month - 1]]);
+  return factsListHtml(rows, "ข้อมูลแปลง");
+}
+
+// แถวข้อมูลทั่วไป rows = [[หัวข้อ, คำ (HTML ที่ escape แล้ว)], ...] ใช้ในหน้าแปลงของฉันด้วย
+function factsListHtml(rows, label) {
+  const items = rows.map(([term, value]) => `<div class="fact"><dt>${term}</dt><dd>${value}</dd></div>`).join("");
+  return `<dl class="facts" aria-label="${label}">${items}</dl>`;
+}
+
+function factNote(text) {
+  return text ? `<span class="fact-note">${text}</span>` : "";
 }
 
 function recommendedHtml(results, plot, crops) {
