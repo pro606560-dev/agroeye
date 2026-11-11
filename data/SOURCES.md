@@ -19,6 +19,7 @@
 | LDD-GINGER | กรมพัฒนาที่ดิน การศึกษาการปลูกขิงด้วยวิธีการอนุรักษ์ดินและน้ำบนพื้นที่สูง — https://orgweb.ldd.go.th/sources/img/part_km/FILES_2675_67bfc4c22f982.pdf | ขิง |
 | LDD-HUASUEA-2567 | สถานีพัฒนาที่ดินลำปาง (ก.ย. 2567) แผนการใช้ที่ดิน ต.หัวเสือ อ.แม่ทะ — https://service.ldd.go.th/lpd/node_modules/img/Landusedistrict/r06_lpg.67_08.pdf | พื้นที่ปลูกในแม่ทะ, ชุดดิน |
 | ICRAF-HEVEA | World Agroforestry, Agroforestree Database: Hevea brasiliensis — https://apps.worldagroforestry.org/treedb2/AFTPDFS/Hevea_brasiliensis.PDF | ยางพารา |
+| LDD-RUBBER-NAN29 | กรมพัฒนาที่ดิน การจัดการดินเพื่อปลูกยางพาราในกลุ่มชุดดินที่ 29 จังหวัดน่าน หน้า 23: "ปริมาณน้ำฝนที่เหมาะสมสำหรับการปลูกยางพาราไม่ควรน้อยกว่า 1,250 มิลลิเมตรต่อปี" (เอกสารอ้างต่อจากการยางแห่งประเทศไทย 2556) — https://e-library.ldd.go.th/library/flip/bib9784f/files/basic-html/page23.html | ยางพารา (ปริมาณน้ำฝน) |
 | ICRAF-TAMARIND | World Agroforestry, Agroforestree Database: Tamarindus indica — https://apps.worldagroforestry.org/treedb/AFTPDFS/Tamarindus_indica.PDF | มะขาม |
 | UF-IFAS-LONGAN | Crane และคณะ (2020) Longan Growing in the Florida Home Landscape, UF/IFAS — https://ask.ifas.ufl.edu/publication/MG049 | ลำไย (ข้อมูลจากฟลอริดา ควรหาแหล่งไทยแทน) |
 | STOU-MAIZE-MAETHA | บุญช่วย อุดคำมี (2562) การส่งเสริมการใช้เทคโนโลยีการผลิตข้าวโพดเลี้ยงสัตว์ของเกษตรกรอำเภอแม่ทะ (มสธ.) — https://repository.stou.ac.th/items/69e78451-7a4a-42b9-a796-40bc0f9a24eb/full | ข้าวโพด |
@@ -35,7 +36,7 @@
 | THIEN-1979 | Thien (1979) A flow diagram for teaching texture-by-feel analysis, Journal of Agronomic Education 8:54–55 | วิธีปั้นบอลและปั้นเส้น |
 | NRCS-NH-SOILS-2024 | USDA NRCS, New Hampshire Soils Handbook (2024) ตาราง soil reaction classes | คำเรียก pH (ปกติ = 6.6–7.3) |
 | NRCS-053252 | USDA NRCS, เอกสาร nrcs142p2_053252 (soil reaction classes) | คำเรียก pH |
-| LDD-ZONE1-ASS | สำนักงานพัฒนาที่ดินเขต 1 นิยาม "ดินเปรี้ยวจัด" = ดินกรดกำมะถัน (Acid Sulfate Soils) | เหตุผลที่แอปไม่ใช้คำว่า "ดินเปรี้ยวจัด" กับค่า pH อย่างเดียว |
+| LDD-ZONE1-ASS | สถานีพัฒนาที่ดินสุพรรณบุรี นิยาม "ดินเปรี้ยวจัด" = ดินกรดกำมะถัน (Acid Sulfate Soils) | เหตุผลที่แอปไม่ใช้คำว่า "ดินเปรี้ยวจัด" กับค่า pH อย่างเดียว |
 | RKB-RD6 | กรมการข้าว คลังความรู้เรื่องข้าว (Rice Knowledge Bank) ข้าวพันธุ์ กข6: ไวต่อช่วงแสง เก็บเกี่ยวประมาณ 21 พฤศจิกายน | ข้าวเหนียว กข6 |
 | RKB-KDML105 | กรมการข้าว คลังความรู้เรื่องข้าว (Rice Knowledge Bank) ข้าวขาวดอกมะลิ 105: ไวต่อช่วงแสง เก็บเกี่ยวประมาณ 25 พฤศจิกายน | ข้าวหอมมะลิ 105 |
 | KUBOTA-RICE-SEASON | สยามคูโบต้า ช่วงปลูกข้าวนาปี พ.ค.–ส.ค. (แหล่งเอกชน **รอยืนยัน** กับสำนักงานเกษตรอำเภอแม่ทะหรือศูนย์วิจัยข้าว ยังไม่ใช้ในแอป) | ช่วงปลูกข้าว |
