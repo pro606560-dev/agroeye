@@ -100,6 +100,7 @@ function onePlotHtml(record, crops) {
     ${plotFactsHtml(record.plot, false)}
     <p class="muted">ตรวจล่าสุด ${thaiDate(record.date)} · ตรวจแล้ว ${rounds} ครั้ง</p>
     ${npkSummaryText(record.plot) ? `<p>ค่าปุ๋ยในดินที่กรอกไว้: ${npkSummaryText(record.plot)} (ยังไม่ใช้คิดคะแนน)</p>` : ""}
+    ${sensorLineHtml(record.plot)}
     <div class="card">
       <h3>พืชที่แนะนำครั้งล่าสุด</h3>
       ${list ? `<ol class="saved-top">${list}</ol>` : "<p>ครั้งนั้นยังแนะนำพืชให้แปลงนี้ไม่ได้</p>"}
@@ -164,4 +165,11 @@ function setupDeleteDialog(container, record) {
     container.querySelector("#delete-notice").innerHTML = `
       <div class="alert alert-warn">ลบไม่ได้ เพราะเครื่องนี้เขียนข้อมูลไม่ได้ในตอนนี้ ลองปิดแอปแล้วเปิดใหม่</div>`;
   });
+}
+
+// task 18: ค่าจากเซนเซอร์ ESP32 ที่เก็บไว้ ตรวจก่อนเรียกเผื่อเบราว์เซอร์ยังจำ index.html เก่าที่ไม่มี sensor.js
+function sensorLineHtml(plot) {
+  if (typeof sensorSummaryText !== "function") return "";
+  const text = sensorSummaryText(plot);
+  return text ? `<p>ค่าจากเซนเซอร์ตอนตรวจ: ${text} (ยังไม่ใช้คิดคะแนน)</p>` : "";
 }

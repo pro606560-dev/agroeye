@@ -2,7 +2,7 @@
 // ทุกครั้งที่แก้ไฟล์ของแอป ต้องเปลี่ยน CACHE_VERSION ให้ตรงกับ APP_VERSION ใน js/config.js
 // (tests.html ตรวจให้ว่าตรงกัน) เครื่องผู้ใช้จึงจะรู้ว่ามีเวอร์ชันใหม่
 
-const CACHE_VERSION = "1.6";
+const CACHE_VERSION = "1.7";
 const CACHE_NAME = `agroeye-v${CACHE_VERSION}`;
 
 // ไฟล์ทั้งหมดที่แอปใช้ (tests.html ตรวจว่าทุกไฟล์ที่ index.html เรียกอยู่ในรายการนี้)
@@ -32,6 +32,7 @@ const APP_FILES = [
   "js/plantings-store.js",
   "js/router.js",
   "js/wizard.js",
+  "js/sensor.js",
   "js/result-logic.js",
   "js/crop-logic.js",
   "js/soil-test.js",
@@ -43,6 +44,7 @@ const APP_FILES = [
   "js/views/placeholder.js",
   "js/views/home.js",
   "js/views/soil-steps.js",
+  "js/views/sensor-box.js",
   "js/views/input-steps.js",
   "js/views/input.js",
   "js/views/result.js",

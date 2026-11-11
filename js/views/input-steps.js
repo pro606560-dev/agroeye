@@ -155,6 +155,7 @@ const STEP_VIEWS = {
       <h3>แปลงได้แดดแบบไหน</h3>
       ${choiceHtml("light", "full-sun", "light-sun", "แดดจัด")}
       ${choiceHtml("light", "shade", "light-shade", "ร่มรำไร")}
+      ${sensorBoxSafeHtml(draft)}
       ${numberFieldHtml("moistureText", "ความชื้นดิน (%)")}
       <details class="help" ${hasNutrientValue(draft) ? "open" : ""}>
         <summary>ค่าปุ๋ยในดิน (N/P/K)</summary>
@@ -165,6 +166,7 @@ const STEP_VIEWS = {
       </details>`,
     check: extraError,
     skip: { label: "ข้าม ไปดูผล", run: clearExtraStep },
+    setup: (root, draft) => { if (typeof setupSensorBox === "function") setupSensorBox(root, draft); },
   },
 };
 
@@ -174,5 +176,11 @@ function hasNutrientValue(draft) {
 
 function clearExtraStep(draft) {
   draft.light = null;
-  ["moistureText", "nitrogenText", "phosphorusText", "potassiumText"].forEach((key) => { draft[key] = ""; });
+  ["moistureText", "nitrogenText", "phosphorusText", "potassiumText", "sensorTempText", "sensorLightText"]
+    .forEach((key) => { draft[key] = ""; });
+}
+
+// task 18: ตรวจก่อนเรียก เผื่อเบราว์เซอร์ยังจำ index.html เก่าที่ไม่มีไฟล์ sensor-box.js หน้ากรอกข้อมูลจะได้ไม่พังทั้งหน้า
+function sensorBoxSafeHtml(draft) {
+  return typeof sensorBoxHtml === "function" ? sensorBoxHtml(draft) : "";
 }

@@ -37,6 +37,8 @@ function createDraft(currentMonth) {
     nitrogenText: "",
     phosphorusText: "",
     potassiumText: "",
+    sensorTempText: "", // task 18: อุณหภูมิตอนวัดจาก ESP32 (เก็บในประวัติ ไม่ใช้คิดคะแนน)
+    sensorLightText: "", // task 18: ความสว่างเทียบ 0–100 จาก LDR (เก็บในประวัติ ไม่ใช้คิดคะแนน)
   };
 }
 
@@ -152,5 +154,14 @@ function buildPlot(draft) {
     nitrogen: parseDecimal(draft.nitrogenText),
     phosphorus: parseDecimal(draft.phosphorusText),
     potassium: parseDecimal(draft.potassiumText),
+    // task 18: แปลงเก่าไม่มีช่องนี้ parseSensorNumber จึงคืน null ให้
+    sensorTempC: parseSensorNumber(draft.sensorTempText),
+    sensorLight: parseSensorNumber(draft.sensorLightText),
   };
+}
+
+// อุณหภูมิติดลบได้ จึงไม่ใช้ parseDecimal ค่าว่างหรือไม่มีช่องคืน null
+function parseSensorNumber(text) {
+  const clean = String(text ?? "").trim();
+  return /^-?\d+(\.\d+)?$/.test(clean) ? Number(clean) : null;
 }
